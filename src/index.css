@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: #ffffffde;
+  background-color: #a6669f;
+
+  --color-primary: #050F22;
+  --color-lightgray: #EFEFEF;
+  --color-midgray: #c4c4c4;
+  --color-text-gray: #5b5b5b;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body, #root {
+  margin: 0;
+  box-sizing: border-box;
+  height: 100vh;
+  overflow: hidden;
+  color: black;
+}
+
+@layer components {
+  .btn-primary {
+    @apply py-2 px-4 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+  }
+
+  .circle {
+    @apply rounded-full;
+  }
+
+  .divider {
+    @apply w-full opacity-20 h-[1px] bg-primary;
+  }
+
+  input, textarea {
+    outline: none;
+    @apply rounded-md py-3 px-3 bg-lightgray text-gray w-full;
+  }
+
+  button {
+    @apply px-2 py-3 rounded-md bg-primary text-white hover:shadow-md transition-all;
+  }
+
+  button.secondary {
+    @apply bg-lightgray text-gray hover:shadow-none;
+  }
+
+  button.light {
+    @apply bg-transparent text-gray hover:bg-lightgray hover:shadow-none;
+  }
+}
