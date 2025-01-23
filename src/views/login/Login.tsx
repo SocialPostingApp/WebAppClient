@@ -5,6 +5,12 @@ import "./Login.css";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import Lottie from "react-lottie";
 import BooksAnimation from "./books-animation.json";
+import {
+  login as loginRequest,
+  saveTokens
+} from "../../services/authService";
+import { useMutation } from "react-query";
+
 
 function Login() {
   const navigate = useNavigate();
@@ -13,8 +19,24 @@ function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const loginMutation = useMutation(
+    ({ email, password }: { email: string; password: string }) =>
+      loginRequest(email, password)
+  );
+
   const login = async () => {
     try {
+      const { data: loginRes } = await loginMutation.mutateAsync({
+        email,
+        password,
+      });
+      saveTokens({
+        accessToken: loginRes.accessToken,
+        refreshToken: loginRes.refreshToken,
+      });
+      
+      toast.success("Logged in successfully");
+
       navigate("/", { replace: true });
     } catch (err) {
       toast.error("Incorrect email or password.\nPlease try again");
