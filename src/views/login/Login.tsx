@@ -6,10 +6,12 @@ import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import Lottie from "react-lottie";
 import BooksAnimation from "./books-animation.json";
 import {
+  googleSignIn,
   login as loginRequest,
   saveTokens
 } from "../../services/authService";
 import { useMutation } from "react-query";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 
 function Login() {
@@ -41,6 +43,28 @@ function Login() {
     } catch (err) {
       toast.error("Incorrect email or password.\nPlease try again");
     }
+  };
+
+  const onGoogleLoginSuccess = async (
+    credentialResponse: CredentialResponse
+  ) => {
+    try {
+      const response = await googleSignIn(credentialResponse);
+      const { data: loginGoogleRes } = response;
+
+      saveTokens({
+        accessToken: loginGoogleRes.accessToken,
+        refreshToken: loginGoogleRes.refreshToken,
+      });
+
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const onGoogleLoginFailure = () => {
+    toast.error("Sorry, we have an issue logging with Google");
   };
 
   return (
@@ -95,6 +119,17 @@ function Login() {
         <button onClick={login} className="mt-4 w-full">
           Login
         </button>
+        <div className="mb-6 mt-5 flex items-center">
+          <div className="divider" />
+          <span className="whitespace-pre text-[14px] mx-2">or login with</span>
+          <div className="divider" />
+        </div>
+        <div className="flex gap-2 justify-center">
+          <GoogleLogin
+            onSuccess={onGoogleLoginSuccess}
+            onError={onGoogleLoginFailure}
+          />
+        </div>
         <div className="text-center pt-8 text-sm">
           <p>
             {" "}
