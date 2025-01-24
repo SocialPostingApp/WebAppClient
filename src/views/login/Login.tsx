@@ -63,6 +63,10 @@ function Login() {
     }
   };
 
+  const onGoogleLoginFailure = () => {
+    toast.error("Sorry, we have an issue logging with Google");
+  };
+
   return (
     <div className="h-[100vh] bg-primary flex items-center justify-center flex flex-col font-display">
       <div className="w-[500px] bg-white rounded-[20px] drop-shadow-lg py-[30px] px-[50px]">
