@@ -74,7 +74,7 @@ function Login() {
           <Lottie
             isClickToPauseDisabled
             options={{ animationData: BooksAnimation }}
-            style={{ width: 400, height: 200 }}
+            style={{ width: 400, height: 100 }}
           />
           <p className="opacity-60">welcome to</p>
           <h1 className="font-bold text-4xl">READIT</h1>
