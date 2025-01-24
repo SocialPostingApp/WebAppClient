@@ -11,7 +11,7 @@ import {
   saveTokens
 } from "../../services/authService";
 import { useMutation } from "react-query";
-import { CredentialResponse } from "@react-oauth/google";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 
 function Login() {
@@ -119,6 +119,17 @@ function Login() {
         <button onClick={login} className="mt-4 w-full">
           Login
         </button>
+        <div className="mb-6 mt-5 flex items-center">
+          <div className="divider" />
+          <span className="whitespace-pre text-[14px] mx-2">or login with</span>
+          <div className="divider" />
+        </div>
+        <div className="flex gap-2 justify-center">
+          <GoogleLogin
+            onSuccess={onGoogleLoginSuccess}
+            onError={onGoogleLoginFailure}
+          />
+        </div>
         <div className="text-center pt-8 text-sm">
           <p>
             {" "}
