@@ -1,5 +1,5 @@
 {
-  "name": "skill-sync",
+  "name": "read-it",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "build-prod": "tsc && vite build --mode=production",
-    "deploy": "cp -a dist ../SkillSyncServer/dist/client"
+    "deploy": "cp -a dist ../WebAppClient/dist/client"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
