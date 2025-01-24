@@ -75,3 +75,21 @@ export const refresh = async (): Promise<AxiosResponse<RefreshResponse>> => {
     }
   );
 };
+
+type RegistrationResponse = {
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+};
+
+export const register = async (
+  name: string,
+  email: string,
+  password: string
+): Promise<AxiosResponse<RegistrationResponse>> => {
+  return await apiClient.post("/auth/register", {
+    name,
+    email,
+    password
+  });
+};

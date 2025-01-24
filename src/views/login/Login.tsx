@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import Lottie from "react-lottie";
@@ -95,6 +95,15 @@ function Login() {
         <button onClick={login} className="mt-4 w-full">
           Login
         </button>
+        <div className="text-center pt-8 text-sm">
+          <p>
+            {" "}
+            Don't have an account yet?{" "}
+            <Link to="/register" replace className="underline">
+              register here
+            </Link>
+          </p>
+        </div>
       </div>
       <Toaster />
     </div>
