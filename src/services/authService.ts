@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import { User } from "../types/User";
 import apiClient from "./httpCommon";
+import { CredentialResponse } from "@react-oauth/google";
 
 const ACCESS_TOKEN_KEY = "access-token";
 const REFRESH_TOKEN_KEY = "refresh-token";
@@ -91,5 +92,23 @@ export const register = async (
     name,
     email,
     password
+  });
+};
+
+type GoogleSignInResponse = {
+  user: User;
+  accessToken: string;
+  refreshToken: string;
+};
+
+export const googleSignIn = async (
+  credentialResponse: CredentialResponse,
+  type?: string,
+  bio?: string
+): Promise<AxiosResponse<GoogleSignInResponse>> => {
+  return await apiClient.post("/auth/google", {
+    credentialResponse,
+    type,
+    bio,
   });
 };
