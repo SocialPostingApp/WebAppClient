@@ -6,10 +6,12 @@ import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
 import Lottie from "react-lottie";
 import BooksAnimation from "./books-animation.json";
 import {
+  googleSignIn,
   login as loginRequest,
   saveTokens
 } from "../../services/authService";
 import { useMutation } from "react-query";
+import { CredentialResponse } from "@react-oauth/google";
 
 
 function Login() {
@@ -40,6 +42,24 @@ function Login() {
       navigate("/", { replace: true });
     } catch (err) {
       toast.error("Incorrect email or password.\nPlease try again");
+    }
+  };
+
+  const onGoogleLoginSuccess = async (
+    credentialResponse: CredentialResponse
+  ) => {
+    try {
+      const response = await googleSignIn(credentialResponse);
+      const { data: loginGoogleRes } = response;
+
+      saveTokens({
+        accessToken: loginGoogleRes.accessToken,
+        refreshToken: loginGoogleRes.refreshToken,
+      });
+
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.log(err);
     }
   };
 
