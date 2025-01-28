@@ -22,4 +22,8 @@ export const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
+  {
+    path: "/comments/:postId",
+    element: <Login />, // for now
+  }
 ]);
