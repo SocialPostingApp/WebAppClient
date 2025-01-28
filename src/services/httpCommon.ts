@@ -1,10 +1,11 @@
 import axios from "axios";
-import { saveTokens, refresh } from "../services/authService";
+import { saveTokens, refresh, ACCESS_TOKEN_KEY } from "../services/authService";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_REACT_APP_API_URL + "/api",
   headers: {
     "Content-type": "application/json",
+    "Authorization": `JWT ${localStorage.getItem(ACCESS_TOKEN_KEY)}`
   },
 });
 
@@ -19,7 +20,7 @@ apiClient.interceptors.response.use(
       try {
         const accessToken = await refreshTokens();
         // Retry the original request with new tokens
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        originalRequest.headers.Authorization = `JWT ${accessToken}`;
         originalRequest._retry = true;
         return apiClient(originalRequest);
       } catch (refreshError) {
