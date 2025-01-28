@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { User } from "../types/User";
+import { IUser } from "../models/index";
 import apiClient from "./httpCommon";
 import { CredentialResponse } from "@react-oauth/google";
 
@@ -50,7 +50,7 @@ export const resetTokens = () => {
 };
 
 type LoginResponse = {
-  user: User;
+  user: IUser;
   accessToken: string;
   refreshToken: string;
 };
@@ -78,7 +78,7 @@ export const refresh = async (): Promise<AxiosResponse<RefreshResponse>> => {
 };
 
 type RegistrationResponse = {
-  user: User;
+  user: IUser;
   accessToken: string;
   refreshToken: string;
 };
@@ -96,7 +96,7 @@ export const register = async (
 };
 
 type GoogleSignInResponse = {
-  user: User;
+  user: IUser;
   accessToken: string;
   refreshToken: string;
 };
