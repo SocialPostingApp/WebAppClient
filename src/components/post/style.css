@@ -1,0 +1,50 @@
+.post-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: fit-content;
+    width: 300px;
+    margin: 50px;
+    color: wheat;
+}
+
+.user {
+    color: blueviolet;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.review {
+    color: white;
+}
+
+.photo {
+    width: inherit;
+    height: 200px;
+    background-image: url('https://www.gutenberg.org/files/1342/1342-h/images/cover.jpg'); 
+    background-size: cover; 
+    background-position: center;
+}
+
+.post-details-container {
+    display: flex;
+    justify-content: space-between;
+    width: inherit;
+    padding: 5px;
+}
+
+.reaction-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 700;
+}
+
+.likes {
+    padding-right: 10px;
+}
+
+.reactions-container {
+    display: flex;
+    justify-content: space-between;
+}
