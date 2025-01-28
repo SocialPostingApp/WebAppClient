@@ -1,11 +1,11 @@
 import axios from "axios";
-import { saveTokens, refresh, ACCESS_TOKEN_KEY } from "../services/authService";
+import { saveTokens, refresh } from "../services/authService";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_REACT_APP_API_URL + "/api",
   headers: {
     "Content-type": "application/json",
-    "Authorization": `JWT ${localStorage.getItem(ACCESS_TOKEN_KEY)}`
+    "Authorization": `JWT ${localStorage.getItem("access-token")}`
   },
 });
 
