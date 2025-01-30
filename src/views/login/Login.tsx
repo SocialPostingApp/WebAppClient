@@ -13,6 +13,7 @@ import {
 import { useMutation } from 'react-query';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useAppContext } from '../../context/appContext';
+import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
 
 function Login() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ function Login() {
         refreshToken: loginRes.refreshToken,
       });
 
-      localStorage.setItem('userId', loginRes.user._id);
+      localStorage.setItem(LocalStorageKeys.USER_ID, loginRes.user._id);
       setUserId(loginRes.user._id);
 
       toast.success('Logged in successfully');
@@ -60,7 +61,7 @@ function Login() {
         refreshToken: loginGoogleRes.refreshToken,
       });
 
-      localStorage.setItem('userId', loginGoogleRes.user._id);
+      localStorage.setItem(LocalStorageKeys.USER_ID, loginGoogleRes.user._id);
       setUserId(loginGoogleRes.user._id);
 
       navigate('/', { replace: true });

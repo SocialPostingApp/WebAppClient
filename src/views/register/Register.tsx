@@ -10,6 +10,7 @@ import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
 
 import './Register.css';
 import { useAppContext } from '../../context/appContext';
+import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
 
 function Register() {
   const navigate = useNavigate();
@@ -76,7 +77,10 @@ function Register() {
         { name, email, password },
         {
           onSuccess: (registerRes) => {
-            localStorage.setItem('userId', registerRes.data._id);
+            localStorage.setItem(
+              LocalStorageKeys.USER_ID,
+              registerRes.data._id
+            );
             setUserId(registerRes.data._id);
 
             toast.success('Registered successfully. You can now login.');

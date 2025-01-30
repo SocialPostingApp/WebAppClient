@@ -2,9 +2,7 @@ import { AxiosResponse } from 'axios';
 import { IUser } from '../models/index';
 import apiClient from './httpCommon';
 import { CredentialResponse } from '@react-oauth/google';
-
-export const ACCESS_TOKEN_KEY = 'access-token';
-export const REFRESH_TOKEN_KEY = 'refresh-token';
+import { LocalStorageKeys } from '../models/enums/localStorageKeys';
 
 export const headers = () => {
   const tokens = getTokens();
@@ -28,8 +26,8 @@ export const refreshTokenHeaders = () => {
 
 export const getTokens = () => {
   return {
-    accessToken: localStorage.getItem(ACCESS_TOKEN_KEY),
-    refreshToken: localStorage.getItem(REFRESH_TOKEN_KEY),
+    accessToken: localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN_KEY),
+    refreshToken: localStorage.getItem(LocalStorageKeys.REFRESH_TOKEN_KEY),
   };
 };
 
@@ -40,13 +38,13 @@ export const saveTokens = ({
   accessToken: string;
   refreshToken: string;
 }) => {
-  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+  localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN_KEY, accessToken);
+  localStorage.setItem(LocalStorageKeys.REFRESH_TOKEN_KEY, refreshToken);
 };
 
 export const resetTokens = () => {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
-  localStorage.removeItem(REFRESH_TOKEN_KEY);
+  localStorage.removeItem(LocalStorageKeys.ACCESS_TOKEN_KEY);
+  localStorage.removeItem(LocalStorageKeys.REFRESH_TOKEN_KEY);
 };
 
 type LoginResponse = {
@@ -81,14 +79,11 @@ export const register = async (
   email: string,
   password: string
 ): Promise<AxiosResponse<IUser>> => {
-  const a = await apiClient.post('/auth/register', {
+  return await apiClient.post('/auth/register', {
     name,
     email,
     password,
   });
-
-  console.log(a);
-  return a;
 };
 
 type GoogleSignInResponse = {
