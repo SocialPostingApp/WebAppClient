@@ -28,17 +28,17 @@ const Post: React.FC<IProps> = ({ post }) => {
       <div className="post-details-container">
         <div className="reactions-container">
           <div className="likes reaction-item">
-            <CiHeart />
-            <div>{post.likesCount ?? 0}</div>
+            <CiHeart className="icon" />
+            <div className="item-number">{post.likesCount ?? 0}</div>
           </div>
           <div className="comments reaction-item" onClick={handleClick}>
-            <FaRegComment />
-            <div>12</div>
+            <FaRegComment className="icon" />
+            <div className="item-number">12</div>
           </div>
         </div>
         <div className="rate reaction-item">
           <div>{post.rate ?? 0}/5</div>
-          <CiStar />
+          <CiStar className="icon" />
         </div>
       </div>
     </div>

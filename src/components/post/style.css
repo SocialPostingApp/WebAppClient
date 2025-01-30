@@ -65,6 +65,7 @@
   align-items: center;
   font-weight: 700;
   padding: 15px;
+  color: var(--color-primary);
 }
 
 .likes {
@@ -78,4 +79,15 @@
 
 .comments {
   cursor: pointer;
+}
+
+.item-number {
+  margin-left: 5px;
+}
+
+.icon {
+  height: 20px !important;
+  width: 20px !important;
+  stroke-width: 1px !important;
+  color: var(--color-primary);
 }
