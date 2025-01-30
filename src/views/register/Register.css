@@ -1,6 +1,5 @@
 .register-container {
   height: 100vh;
-  background-color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
