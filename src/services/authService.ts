@@ -1,10 +1,10 @@
-import { AxiosResponse } from "axios";
-import { IUser } from "../models/index";
-import apiClient from "./httpCommon";
-import { CredentialResponse } from "@react-oauth/google";
+import { AxiosResponse } from 'axios';
+import { IUser } from '../models/index';
+import apiClient from './httpCommon';
+import { CredentialResponse } from '@react-oauth/google';
 
-export const ACCESS_TOKEN_KEY = "access-token";
-export const REFRESH_TOKEN_KEY = "refresh-token";
+export const ACCESS_TOKEN_KEY = 'access-token';
+export const REFRESH_TOKEN_KEY = 'refresh-token';
 
 export const headers = () => {
   const tokens = getTokens();
@@ -58,9 +58,8 @@ export const login = async (
   email: string,
   password: string
 ): Promise<AxiosResponse<LoginResponse>> => {
-  return await apiClient.post("/auth/login", { email, password });
+  return await apiClient.post('/auth/login', { email, password });
 };
-
 
 type RefreshResponse = {
   accessToken: string;
@@ -69,7 +68,7 @@ type RefreshResponse = {
 
 export const refresh = async (): Promise<AxiosResponse<RefreshResponse>> => {
   return await apiClient.post(
-    "/auth/refresh",
+    '/auth/refresh',
     {},
     {
       headers: refreshTokenHeaders(),
@@ -77,22 +76,19 @@ export const refresh = async (): Promise<AxiosResponse<RefreshResponse>> => {
   );
 };
 
-type RegistrationResponse = {
-  user: IUser;
-  accessToken: string;
-  refreshToken: string;
-};
-
 export const register = async (
   name: string,
   email: string,
   password: string
-): Promise<AxiosResponse<RegistrationResponse>> => {
-  return await apiClient.post("/auth/register", {
+): Promise<AxiosResponse<IUser>> => {
+  const a = await apiClient.post('/auth/register', {
     name,
     email,
-    password
+    password,
   });
+
+  console.log(a);
+  return a;
 };
 
 type GoogleSignInResponse = {
@@ -106,7 +102,7 @@ export const googleSignIn = async (
   type?: string,
   bio?: string
 ): Promise<AxiosResponse<GoogleSignInResponse>> => {
-  return await apiClient.post("/auth/google", {
+  return await apiClient.post('/auth/google', {
     credentialResponse,
     type,
     bio,

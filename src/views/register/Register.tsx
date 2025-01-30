@@ -1,46 +1,43 @@
-import { ChangeEvent, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { useMutation } from "react-query";
-import { register as registerRequest } from "../../services/authService";
-import { Link, useNavigate } from "react-router-dom";
+import { ChangeEvent, useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { useMutation } from 'react-query';
+import { register as registerRequest } from '../../services/authService';
+import { Link, useNavigate } from 'react-router-dom';
 
-import Joi from "joi";
-import { Tooltip } from "react-tooltip";
-import {
-  EyeSlashIcon,
-  EyeIcon,
-  QuestionMarkCircleIcon,
-} from "@heroicons/react/24/solid";
+import Joi from 'joi';
+import { Tooltip } from 'react-tooltip';
+import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
 
-import "./Register.css";
+import './Register.css';
+import { useAppContext } from '../../context/appContext';
 
 function Register() {
   const navigate = useNavigate();
+  const { setUserId } = useAppContext();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
 
   const schema = Joi.object({
     name: Joi.string()
       .regex(/^[a-zA-Z\s]+$/)
       .required()
       .messages({
-        "string.pattern.base": "Name can only contain letters and spaces",
-        "any.required": "Please fill in all fields",
+        'string.pattern.base': 'Name can only contain letters and spaces',
+        'any.required': 'Please fill in all fields',
       }),
     email: Joi.string()
       .email({ tlds: { allow: false } })
       .required()
       .messages({
-        "string.email": "Invalid email address.",
-        "any.required": "Email is required.",
+        'string.email': 'Invalid email address.',
+        'any.required': 'Email is required.',
       }),
     password: Joi.string().required().messages({
-      "any.required": "Please fill in all fields",
+      'any.required': 'Please fill in all fields',
     }),
   });
 
@@ -49,78 +46,16 @@ function Register() {
     { abortEarly: false }
   );
 
-  const renderInputField = (
-    id: string,
-    value: string,
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    label: string,
-    tooltipKey: string
-  ) => {
-    const hasError =
-      formSubmitted &&
-      validationResult.error?.details.some(
-        (detail) => detail.context?.key === tooltipKey
-      );
-
-    return (
-      <div className="mb-3">
-        <label htmlFor={id} className="block mb-2 text-sm text-gray-700">
-          {label}
-          <span className="text-red-500">*</span>
-          <Tooltip id={`${tooltipKey}-tooltip`}>
-            {
-              validationResult.error?.details.find(
-                (detail) => detail.context?.key === tooltipKey
-              )?.message
-            }
-          </Tooltip>
-        </label>
-        <div className="relative">
-          <input
-            id={id}
-            value={value}
-            onChange={(e) => onChange(e)}
-            type={id === "password" && !showPassword ? "password" : "text"}
-            style={{
-              border: `1px solid ${hasError ? "red" : "transparent"}`,
-            }}
-            data-tip
-            data-for={`${tooltipKey}-tooltip`}
-          />
-          {id === "password" && (
-            <div
-              className="absolute inset-y-0 right-0 px-3 py-2 flex items-center cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? (
-                <EyeIcon className="h-4 w-4 text-black" />
-              ) : (
-                <EyeSlashIcon className="h-4 w-4 text-black" />
-              )}
-            </div>
-          )}
-        </div>
-        {formSubmitted &&
-        validationResult.error?.details.find(
-          (detail) => detail.context?.key == tooltipKey
-        ) ? (
-          validationResult.error?.details.map((detail) => (
-            <div key={detail.message} className={`text-red-500 text-sm mt-1`}>
-              {detail.context?.key === tooltipKey && detail.message}
-            </div>
-          ))
-        ) : (
-          <div className="mt-1 h-[20px]"></div>
-        )}
-      </div>
-    );
-  };
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    setter: React.Dispatch<React.SetStateAction<string>>
+  ) => setter(e.target.value);
 
   const registerMutation = useMutation(
     ({
       name,
       email,
-      password
+      password,
     }: {
       name: string;
       email: string;
@@ -129,63 +64,97 @@ function Register() {
   );
 
   const register = async () => {
+    setFormSubmitted(true);
+
+    if (validationResult.error) {
+      toast.error('Please review and correct the information in all fields.');
+      return;
+    }
+
     try {
-      setFormSubmitted(true);
+      await registerMutation.mutateAsync(
+        { name, email, password },
+        {
+          onSuccess: (registerRes) => {
+            localStorage.setItem('userId', registerRes.data._id);
+            setUserId(registerRes.data._id);
 
-      if (validationResult.error) {
-        toast.error("Please review and correct the information in all fields.");
-        return;
-      }
-
-      await registerMutation.mutateAsync({
-        name,
-        email,
-        password
-      });
-      toast.success("Registered successfully. You can now login.");
-      navigate("/login", { replace: true });
-    } catch (err) {
-      toast.error("Registration failed");
+            toast.success('Registered successfully. You can now login.');
+            navigate('/login', { replace: true });
+          },
+          onError: () => {
+            toast.error('Registration failed');
+          },
+        }
+      );
+    } catch {
+      toast.error('Registration failed');
     }
   };
 
   return (
-    <div className="h-[100vh] bg-primary flex items-center justify-center flex flex-col font-display">
-      <div className="w-[500px] bg-white rounded-[20px] drop-shadow-lg p-[40px]">
-        <h1 className="text-2xl mb-3 font-bold">Register</h1>
+    <div className="register-container">
+      <div className="register-box">
+        <h1 className="register-title">Register</h1>
 
-        {renderInputField(
-          "name",
-          name,
-          (e) => setName(e.target.value),
-          "Name",
-          "name"
-        )}
-        {renderInputField(
-          "email",
-          email,
-          (e) => setEmail(e.target.value),
-          "Email",
-          "email"
-        )}
-        {renderInputField(
-          "password",
-          password,
-          (e) => setPassword(e.target.value),
-          "Password",
-          "password"
-        )}
+        <div className="form-group">
+          <label htmlFor="name" className="form-label">
+            Name <span className="required">*</span>
+          </label>
+          <input
+            id="name"
+            className="form-input"
+            value={name}
+            onChange={(e) => handleInputChange(e, setName)}
+          />
+        </div>
 
-        <button onClick={register} className="mt-4 w-full">
+        <div className="form-group">
+          <label htmlFor="email" className="form-label">
+            Email <span className="required">*</span>
+          </label>
+          <input
+            id="email"
+            className="form-input"
+            value={email}
+            onChange={(e) => handleInputChange(e, setEmail)}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password" className="form-label">
+            Password <span className="required">*</span>
+          </label>
+          <div className="password-container">
+            <input
+              id="password"
+              className="form-input"
+              type={showPassword ? 'text' : 'password'}
+              value={password}
+              onChange={(e) => handleInputChange(e, setPassword)}
+            />
+            <button
+              className="password-toggle"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <EyeIcon className="icon" />
+              ) : (
+                <EyeSlashIcon className="icon" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        <button onClick={register} className="register-button">
           Register
         </button>
 
-        <div className="text-center pt-8 text-sm">
+        <div className="register-footer">
           <p>
-            {" "}
-            Already have an account?{" "}
-            <Link to="/login" replace className="underline">
-              login here
+            Already have an account?{' '}
+            <Link to="/login" replace className="register-link">
+              Login here
             </Link>
           </p>
         </div>

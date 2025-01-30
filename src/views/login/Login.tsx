@@ -37,6 +37,7 @@ function Login() {
         refreshToken: loginRes.refreshToken,
       });
 
+      localStorage.setItem('userId', loginRes.user._id);
       setUserId(loginRes.user._id);
 
       toast.success('Logged in successfully');
@@ -58,6 +59,9 @@ function Login() {
         accessToken: loginGoogleRes.accessToken,
         refreshToken: loginGoogleRes.refreshToken,
       });
+
+      localStorage.setItem('userId', loginGoogleRes.user._id);
+      setUserId(loginGoogleRes.user._id);
 
       navigate('/', { replace: true });
     } catch (err) {
