@@ -66,13 +66,13 @@ const Comments: React.FC = () => {
           <input
             type="text"
             className="comment-input"
-            placeholder="הוסף תגובה..."
+            placeholder="add comment..."
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
             onKeyDown={handleKeyPress}
           />
           <button className="comment-add-btn" onClick={handleCommentSubmit}>
-            הוסף
+            add
           </button>
         </div>
       </div>
