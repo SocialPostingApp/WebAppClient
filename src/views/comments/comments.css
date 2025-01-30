@@ -5,6 +5,7 @@
   margin-bottom: 15px;
   align-self: center;
 }
+
 .all-comments-container {
   display: flex;
   flex-direction: column;
@@ -28,26 +29,75 @@
 }
 
 .comment-user {
+  display: flex;
+  flex: 1;
   font-weight: bolder;
 }
 
 .comment-message {
-  width: 200px;
+  display: flex;
+  flex: 6;
   word-wrap: break-word;
   white-space: normal;
 }
 
 .custom-box {
+  display: flex;
+  flex-direction: column;
   width: 500px;
   height: 460px;
   overflow-y: auto;
   background-color: white;
   border-radius: 20px;
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-  padding: 30px 50px;
+  box-shadow: 0 10px 15px #0000001a, 0 4px 6px #0000000d;
+  padding: 30px 30px 10px 30px;
+}
 
-  &::-webkit-scrollbar {
-    width: 10px;
-    margin: 5px;
-  }
+.custom-box::-webkit-scrollbar {
+  width: 10px;
+  margin: 5px;
+}
+
+/* New styles for the comment input */
+.comment-input-container {
+  display: flex;
+  align-items: center;
+  width: 500px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.comment-add-btn {
+  padding: 10px 15px;
+  margin-left: 8px;
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.comment-add-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.comments-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
 }

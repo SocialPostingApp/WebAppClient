@@ -1,23 +1,24 @@
-import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
-import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
-import Lottie from "react-lottie";
-import BooksAnimation from "./books-animation.json";
+import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import './Login.css';
+import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
+import Lottie from 'react-lottie';
+import BooksAnimation from './books-animation.json';
 import {
   googleSignIn,
   login as loginRequest,
   saveTokens,
-} from "../../services/authService";
-import { useMutation } from "react-query";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+} from '../../services/authService';
+import { useMutation } from 'react-query';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { useAppContext } from '../../context/appContext';
 
 function Login() {
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { setUserId } = useAppContext();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const loginMutation = useMutation(
@@ -36,11 +37,13 @@ function Login() {
         refreshToken: loginRes.refreshToken,
       });
 
-      toast.success("Logged in successfully");
+      setUserId(loginRes.user._id);
 
-      navigate("/", { replace: true });
+      toast.success('Logged in successfully');
+
+      navigate('/', { replace: true });
     } catch (err) {
-      toast.error("Incorrect email or password.\nPlease try again");
+      toast.error('Incorrect email or password.\nPlease try again');
     }
   };
 
@@ -56,14 +59,14 @@ function Login() {
         refreshToken: loginGoogleRes.refreshToken,
       });
 
-      navigate("/", { replace: true });
+      navigate('/', { replace: true });
     } catch (err) {
       console.log(err);
     }
   };
 
   const onGoogleLoginFailure = () => {
-    toast.error("Sorry, we have an issue logging with Google");
+    toast.error('Sorry, we have an issue logging with Google');
   };
 
   return (
@@ -97,7 +100,7 @@ function Login() {
             <input
               id="password"
               className="custom-input"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -130,7 +133,7 @@ function Login() {
         </div>
         <div className="register-text">
           <p>
-            Don't have an account yet?{" "}
+            Don't have an account yet?{' '}
             <Link to="/register" replace className="underline">
               Register here
             </Link>
