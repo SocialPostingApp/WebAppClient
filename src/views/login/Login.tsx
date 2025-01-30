@@ -1,24 +1,25 @@
-import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
-import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/solid";
-import Lottie from "react-lottie";
-import BooksAnimation from "./books-animation.json";
+import { useState } from 'react';
+import toast, { Toaster } from 'react-hot-toast';
+import { Link, useNavigate } from 'react-router-dom';
+import './Login.css';
+import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
+import Lottie from 'react-lottie';
+import BooksAnimation from './books-animation.json';
 import {
   googleSignIn,
   login as loginRequest,
-  saveTokens
-} from "../../services/authService";
-import { useMutation } from "react-query";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-
+  saveTokens,
+} from '../../services/authService';
+import { useMutation } from 'react-query';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { useAppContext } from '../../context/appContext';
+import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
 
 function Login() {
   const navigate = useNavigate();
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { setUserId } = useAppContext();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
   const loginMutation = useMutation(
@@ -36,12 +37,15 @@ function Login() {
         accessToken: loginRes.accessToken,
         refreshToken: loginRes.refreshToken,
       });
-      
-      toast.success("Logged in successfully");
 
-      navigate("/", { replace: true });
+      localStorage.setItem(LocalStorageKeys.USER_ID, loginRes.user._id);
+      setUserId(loginRes.user._id);
+
+      toast.success('Logged in successfully');
+
+      navigate('/', { replace: true });
     } catch (err) {
-      toast.error("Incorrect email or password.\nPlease try again");
+      toast.error('Incorrect email or password.\nPlease try again');
     }
   };
 
@@ -57,85 +61,86 @@ function Login() {
         refreshToken: loginGoogleRes.refreshToken,
       });
 
-      navigate("/", { replace: true });
+      localStorage.setItem(LocalStorageKeys.USER_ID, loginGoogleRes.user._id);
+      setUserId(loginGoogleRes.user._id);
+
+      navigate('/', { replace: true });
     } catch (err) {
       console.log(err);
     }
   };
 
   const onGoogleLoginFailure = () => {
-    toast.error("Sorry, we have an issue logging with Google");
+    toast.error('Sorry, we have an issue logging with Google');
   };
 
   return (
-    <div className="h-[100vh] bg-primary flex items-center justify-center flex flex-col font-display">
-      <div className="w-[500px] bg-white rounded-[20px] drop-shadow-lg py-[30px] px-[50px]">
-        <div className="text-center mb-5 text-primary">
+    <div className="custom-container">
+      <div className="login-custom-box">
+        <div className="custom-text">
           <Lottie
             isClickToPauseDisabled
             options={{ animationData: BooksAnimation }}
             style={{ width: 400, height: 100 }}
           />
-          <p className="opacity-60">welcome to</p>
-          <h1 className="font-bold text-4xl">READIT</h1>
+          <p className="welcome-text">Welcome to</p>
+          <h1 className="font-bold-4xl">READIT</h1>
         </div>
-        <div className="mb-3">
-          <label htmlFor="email" className="block mb-2 text-sm text-gray-700">
+        <div className="input-group">
+          <label htmlFor="email" className="custom-label">
             Email
           </label>
           <input
             id="email"
+            className="custom-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-3">
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm text-gray-700"
-          >
+        <div className="input-group">
+          <label htmlFor="password" className="custom-label">
             Password
           </label>
           <div className="relative">
             <input
               id="password"
-              type={showPassword ? "text" : "password"}
+              className="custom-input"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
             <div
-              className="absolute inset-y-0 right-0 px-3 py-2 flex items-center cursor-pointer"
+              className="absolute-inset-right"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (
-                <EyeIcon className="h-4 w-4 text-black" />
+                <EyeIcon className="icon" />
               ) : (
-                <EyeSlashIcon className="h-4 w-4 text-black" />
+                <EyeSlashIcon className="icon" />
               )}
             </div>
           </div>
         </div>
 
-        <button onClick={login} className="mt-4 w-full">
+        <button onClick={login} className="custom-button">
           Login
         </button>
-        <div className="mb-6 mt-5 flex items-center">
+        <div className="divider-container">
           <div className="divider" />
-          <span className="whitespace-pre text-[14px] mx-2">or login with</span>
+          <span className="divider-text">or login with</span>
           <div className="divider" />
         </div>
-        <div className="flex gap-2 justify-center">
+        <div className="google-login-container">
           <GoogleLogin
             onSuccess={onGoogleLoginSuccess}
             onError={onGoogleLoginFailure}
           />
         </div>
-        <div className="text-center pt-8 text-sm">
+        <div className="register-text">
           <p>
-            {" "}
-            Don't have an account yet?{" "}
+            Don't have an account yet?{' '}
             <Link to="/register" replace className="underline">
-              register here
+              Register here
             </Link>
           </p>
         </div>

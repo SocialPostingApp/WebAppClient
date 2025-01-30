@@ -1,39 +1,108 @@
 .comments-title {
-    font-size: 50px;
-    font-weight: bolder;
-    color: white;
-    margin-bottom: 30px;
-    align-self: center;
+  font-size: 50px;
+  font-weight: bolder;
+  color: white;
+  margin-bottom: 15px;
+  align-self: center;
 }
+
 .all-comments-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    height: inherit;
-    padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: inherit;
+  padding: 10px;
 }
 
 .all-comments-container > .comment-container:not(:last-child) {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .comment-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    color: wheat;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  color: #000000;
 }
 
 .comment-container > div:not(:last-child) {
-    margin-right: 15px;
+  margin-right: 15px;
 }
 
 .comment-user {
-    font-weight: bolder;
+  display: flex;
+  flex: 1;
+  font-weight: bolder;
 }
 
 .comment-message {
-    width: 200px;
-    word-wrap:break-word; 
-    white-space: normal;
+  display: flex;
+  flex: 6;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.custom-box {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 460px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 15px #0000001a, 0 4px 6px #0000000d;
+  padding: 30px 30px 10px 30px;
+}
+
+/* New styles for the comment input */
+.comment-input-container {
+  display: flex;
+  align-items: center;
+  width: 500px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.comment-add-btn {
+  padding: 10px 15px;
+  margin-left: 8px;
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.comment-add-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.comments-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.comments-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comments-container::-webkit-scrollbar-thumb {
+  background-color: #e6e6e6;
+  border-radius: 10px;
 }
