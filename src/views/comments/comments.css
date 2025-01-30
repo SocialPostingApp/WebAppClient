@@ -1,0 +1,39 @@
+.comments-title {
+    font-size: 50px;
+    font-weight: bolder;
+    color: white;
+    margin-bottom: 30px;
+    align-self: center;
+}
+.all-comments-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: inherit;
+    padding: 50px;
+}
+
+.all-comments-container > .comment-container:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.comment-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: wheat;
+}
+
+.comment-container > div:not(:last-child) {
+    margin-right: 15px;
+}
+
+.comment-user {
+    font-weight: bolder;
+}
+
+.comment-message {
+    width: 200px;
+    word-wrap:break-word; 
+    white-space: normal;
+}

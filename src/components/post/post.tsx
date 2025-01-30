@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 interface IProps {
     post: IPost;
-    getComments?: () => void;
 }
 
 const Post: React.FC<IProps> = ({ post }) => {

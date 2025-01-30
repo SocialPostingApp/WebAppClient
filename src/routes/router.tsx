@@ -2,6 +2,7 @@ import { createBrowserRouter, redirect } from "react-router-dom";
 import Login from "../views/login/Login";
 import Feed from "../views/feed/Feed";
 import Register from "../views/register/Register";
+import Comments from "../views/comments/Comments";
 
 const authLoader = async () => {
   // AUTH LOGIC
@@ -24,6 +25,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "/comments/:postId",
-    element: <Login />, // for now
+    element: <Comments />,
   }
 ]);
