@@ -1,25 +1,54 @@
-import Post from "../../components/post/post";
-import { IPost } from "../../models/index";
-import { useQuery } from "react-query";
-import { getAllPosts } from "../../services/postService";
+import { useState, useEffect } from 'react';
+import Post from '../../components/post/post';
+import { IPost } from '../../models/index';
+import { getAllPosts } from '../../services/postService';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import './style.css';
 
+export const OFFSET = 2;
+
 const Feed: React.FC = () => {
-  const { data, isLoading, error } = useQuery<IPost[]>(['posts'], () => getAllPosts());
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
+  const fetchMorePosts = async () => {
+    try {
+      const postPagesResponse = await getAllPosts(page);
+      const newPosts = postPagesResponse.posts;
+      setHasMore(postPagesResponse.hasMore);
 
-  if (isLoading) 
-    return <p>Loading posts</p>;
-  if (error instanceof Error) 
-    return <p>Error: {error.message}</p>;
+      if (newPosts.length) {
+        setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+        setPage(page + OFFSET);
+      }
+    } catch (error) {
+      console.error('Error loading more posts:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMorePosts();
+  }, []);
 
   return (
-    <div className="feed-container">
-      {data?.map((post: IPost, index: number) => (
-        <Post key={index} post={post} />
-    ))}
+    <div id="scrollableFeed" className="feed-container">
+      <div className="infinite-scroll-container">
+        <InfiniteScroll
+          dataLength={posts.length}
+          next={fetchMorePosts}
+          hasMore={hasMore}
+          loader={<p className="loading-text">Loading more posts...</p>}
+          scrollableTarget="scrollableFeed"
+          className="infinite-scroll-wrapper"
+        >
+          {posts.map((post, index) => (
+            <Post key={index} post={post} />
+          ))}
+        </InfiniteScroll>
+      </div>
     </div>
   );
-}
+};
 
 export default Feed;

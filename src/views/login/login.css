@@ -19,7 +19,7 @@
 .custom-text {
   text-align: center;
   margin-bottom: 20px;
-  color: var(--primary);
+  color: var(--color-primary);
 }
 
 .welcome-text {

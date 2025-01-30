@@ -18,8 +18,12 @@ const Post: React.FC<IProps> = ({ post }) => {
 
   return (
     <div className="post-container">
-      <div className="user">{post.owner.name}</div>
-      <div className="review">{post.review}</div>
+      <div className="user-name-row">
+        <div className="user-name">{post.owner.name}'s review</div>
+      </div>
+      <div className="review-container">
+        <div className="review">{post.review}</div>
+      </div>
       <div className="photo">{post.image}</div>
       <div className="post-details-container">
         <div className="reactions-container">
@@ -33,8 +37,8 @@ const Post: React.FC<IProps> = ({ post }) => {
           </div>
         </div>
         <div className="rate reaction-item">
+          <div>{post.rate ?? 0}/5</div>
           <CiStar />
-          <div>{post.rate ?? 0}</div>
         </div>
       </div>
     </div>
