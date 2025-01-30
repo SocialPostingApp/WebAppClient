@@ -93,13 +93,9 @@ type GoogleSignInResponse = {
 };
 
 export const googleSignIn = async (
-  credentialResponse: CredentialResponse,
-  type?: string,
-  bio?: string
+  credentialResponse: CredentialResponse
 ): Promise<AxiosResponse<GoogleSignInResponse>> => {
   return await apiClient.post('/auth/google', {
-    credentialResponse,
-    type,
-    bio,
+    credential: credentialResponse,
   });
 };
