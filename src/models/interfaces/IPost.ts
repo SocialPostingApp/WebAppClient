@@ -1,10 +1,12 @@
+import { IUser } from './IUser';
+
 export interface IPost {
-    _id: string,
-    owner: string,
-    title: string,
-    review: string,
-    image?: string,
-    rate?: number,
-    likesCount?: number,
-    comments?: string[]
+  _id: string;
+  owner: Pick<IUser, '_id' | 'name'>;
+  title: string;
+  review: string;
+  image?: string;
+  rate: number;
+  likesCount: number;
+  comments?: string[];
 }

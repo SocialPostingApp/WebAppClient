@@ -1,14 +1,15 @@
-import { IComment } from "../../models/index";
-import { useQuery } from "react-query";
-import { getCommentsByPost } from "../../services/commentService";
-import "./comments.css";
-import { useParams } from "react-router-dom";
+import './comments.css';
+import { IComment } from '../../models/index';
+import { useQuery } from 'react-query';
+import { getCommentsByPost } from '../../services/commentService';
+import './comments.css';
+import { useParams } from 'react-router-dom';
 
 const Comments: React.FC = () => {
   const { postId } = useParams();
   const { data, isLoading, error } = useQuery<IComment[]>(
-    ["comments", postId],
-    () => getCommentsByPost(postId || "not found")
+    ['comments', postId],
+    () => getCommentsByPost(postId || 'not found')
   );
 
   if (isLoading) return <p>Loading comments</p>;
@@ -20,7 +21,7 @@ const Comments: React.FC = () => {
       <div className="custom-box">
         {data?.map((comment: IComment, index: number) => (
           <div key={index} className="comment-container">
-            <div className="comment-user">{comment.userId}: </div>
+            <div className="comment-user">{comment.userId.name}: </div>
             <div className="comment-message">{comment.message}</div>
           </div>
         ))}
