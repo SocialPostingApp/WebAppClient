@@ -1,5 +1,124 @@
-@layer login-components {
-    .login-provider {
-        @apply py-2 px-2 cursor-pointer flex items-center gap-2 rounded-md text-[14px];
-    }
+.custom-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: var(--display-font);
+}
+
+.login-custom-box {
+  width: 500px;
+  height: 600px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px 50px;
+}
+
+.custom-text {
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+.welcome-text {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.font-bold-4xl {
+  font-weight: bold;
+  font-size: 2.25rem;
+}
+
+.input-group {
+  margin-bottom: 12px;
+}
+
+.custom-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute-inset-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  color: black;
+}
+
+.custom-button {
+  width: 100%;
+  padding: 10px;
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.custom-button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.divider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.divider {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.divider-text {
+  font-size: 14px;
+  margin: 0 8px;
+}
+
+.google-login-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.register-text {
+  text-align: center;
+  padding-top: 16px;
+  font-size: 14px;
+}
+
+.register-text a {
+  text-decoration: underline;
+  color: var(--color-primary);
 }
