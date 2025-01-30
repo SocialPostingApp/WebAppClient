@@ -47,16 +47,10 @@
   flex-direction: column;
   width: 500px;
   height: 460px;
-  overflow-y: auto;
   background-color: white;
   border-radius: 20px;
   box-shadow: 0 10px 15px #0000001a, 0 4px 6px #0000000d;
   padding: 30px 30px 10px 30px;
-}
-
-.custom-box::-webkit-scrollbar {
-  width: 10px;
-  margin: 5px;
 }
 
 /* New styles for the comment input */
@@ -101,4 +95,14 @@
   flex-direction: column;
   align-items: center;
   padding: 10px;
+  overflow-y: auto;
+}
+
+.comments-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comments-container::-webkit-scrollbar-thumb {
+  background-color: #e6e6e6;
+  border-radius: 10px;
 }
