@@ -1,16 +1,16 @@
 import { AxiosResponse } from "axios";
-import { User } from "../types/User";
+import { IUser } from "../models/index";
 import apiClient from "./httpCommon";
 import { CredentialResponse } from "@react-oauth/google";
 
-const ACCESS_TOKEN_KEY = "access-token";
-const REFRESH_TOKEN_KEY = "refresh-token";
+export const ACCESS_TOKEN_KEY = "access-token";
+export const REFRESH_TOKEN_KEY = "refresh-token";
 
 export const headers = () => {
   const tokens = getTokens();
   if (tokens.accessToken) {
     return {
-      Authorization: `Bearer ${tokens.accessToken}`,
+      Authorization: `JWT ${tokens.accessToken}`,
     };
   }
   return {};
@@ -20,7 +20,7 @@ export const refreshTokenHeaders = () => {
   const tokens = getTokens();
   if (tokens.refreshToken) {
     return {
-      Authorization: `Bearer ${tokens.refreshToken}`,
+      Authorization: `JWT ${tokens.refreshToken}`,
     };
   }
   return {};
@@ -50,7 +50,7 @@ export const resetTokens = () => {
 };
 
 type LoginResponse = {
-  user: User;
+  user: IUser;
   accessToken: string;
   refreshToken: string;
 };
@@ -78,7 +78,7 @@ export const refresh = async (): Promise<AxiosResponse<RefreshResponse>> => {
 };
 
 type RegistrationResponse = {
-  user: User;
+  user: IUser;
   accessToken: string;
   refreshToken: string;
 };
@@ -96,7 +96,7 @@ export const register = async (
 };
 
 type GoogleSignInResponse = {
-  user: User;
+  user: IUser;
   accessToken: string;
   refreshToken: string;
 };
