@@ -4,6 +4,7 @@ import { CiStar, CiHeart } from 'react-icons/ci';
 import { FaRegComment } from 'react-icons/fa';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
+import MyImage from './book.jpg';
 
 interface IProps {
   post: IPost;
@@ -24,7 +25,9 @@ const Post: React.FC<IProps> = ({ post }) => {
       <div className="review-container">
         <div className="review">{post.review}</div>
       </div>
-      <div className="photo">{post.image}</div>
+      {/* <div className="photo">{post.image}</div> */}
+
+      <img src={MyImage} className="photo" />
       <div className="post-details-container">
         <div className="reactions-container">
           <div className="likes reaction-item">
