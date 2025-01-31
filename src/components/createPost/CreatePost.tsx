@@ -29,9 +29,9 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
   const { userId } = useAppContext();
   const queryClient = useQueryClient();
 
-  const addCommentMutation = useMutation(
+  const addPostMutation = useMutation(
     async (newPost: Omit<IPost, 'owner' | '_id'>) => {
-      return addPost(newPost, userId as unknown as string);
+      return addPost(newPost, userId);
     },
     {
       onSuccess: () => {
@@ -41,7 +41,7 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
         onClose();
       },
       onError: (error) => {
-        console.error('Error adding comment:', error);
+        console.error('Error adding post:', error);
       },
     }
   );
@@ -79,7 +79,7 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
         likesCount: 0,
       };
 
-      addCommentMutation.mutate(newPost);
+      addPostMutation.mutate(newPost);
     }
 
     onClose();
