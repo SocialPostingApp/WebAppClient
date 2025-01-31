@@ -80,9 +80,8 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
       };
 
       addPostMutation.mutate(newPost);
+      onClose();
     }
-
-    onClose();
   };
 
   return (
