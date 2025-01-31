@@ -8,7 +8,11 @@ import MyImage from './book.jpg';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getCommentsCountByPost } from '../../services/commentService';
 import { useAppContext } from '../../context/appContext';
-import { addLike, getLikedUserIds } from '../../services/likeService';
+import {
+  addLike,
+  getLikedUserIds,
+  removeLike,
+} from '../../services/likeService';
 
 interface IProps {
   post: IPost;
@@ -30,7 +34,10 @@ const Post: React.FC<IProps> = ({ post }) => {
     () => getLikedUserIds(postId)
   );
 
-  const likedUserIdsSet = useMemo(() => new Set(likedUserIds), [likedUserIds]);
+  const didUserLikePost = useMemo(() => {
+    const likedUserIdsSet = new Set(likedUserIds);
+    return likedUserIdsSet.has(userId);
+  }, [likedUserIds]);
 
   const addLikeMutation = useMutation(
     async () => {
@@ -47,12 +54,31 @@ const Post: React.FC<IProps> = ({ post }) => {
     }
   );
 
+  const removeLikeMutation = useMutation(
+    async () => {
+      if (!postId) throw new Error('Post ID not found');
+      return removeLike(postId, userId);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['likes', postId]);
+      },
+      onError: (error) => {
+        console.error('Error adding comment:', error);
+      },
+    }
+  );
+
   const handleCommentsClick = (): void => {
     navigate(`/comments/${postId}`);
   };
 
   const handleLikesClick = (): void => {
-    addLikeMutation.mutate();
+    if (didUserLikePost) {
+      removeLikeMutation.mutate();
+    } else {
+      addLikeMutation.mutate();
+    }
   };
 
   return (
@@ -72,7 +98,7 @@ const Post: React.FC<IProps> = ({ post }) => {
             className="likes reaction-item clickable"
             onClick={handleLikesClick}
           >
-            {likedUserIdsSet.has(userId) ? (
+            {didUserLikePost ? (
               <FaHeart className="icon" />
             ) : (
               <CiHeart className="icon" />
