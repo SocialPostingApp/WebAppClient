@@ -52,6 +52,11 @@
   background-color: wheat;
 }
 
+.photo > img {
+  width: inherit;
+  height: inherit;
+}
+
 .post-details-container {
   display: flex;
   justify-content: space-between;
