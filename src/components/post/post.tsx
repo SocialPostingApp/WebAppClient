@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { IPost, IUser } from '../../models/index';
 import { CiStar, CiHeart } from 'react-icons/ci';
-import { FaRegComment } from 'react-icons/fa';
+import { FaRegComment, FaHeart } from 'react-icons/fa';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
 import MyImage from './book.jpg';
@@ -29,6 +29,8 @@ const Post: React.FC<IProps> = ({ post }) => {
     ['likes', postId],
     () => getLikedUserIds(postId)
   );
+
+  const likedUserIdsSet = useMemo(() => new Set(likedUserIds), [likedUserIds]);
 
   const addLikeMutation = useMutation(
     async () => {
@@ -66,11 +68,16 @@ const Post: React.FC<IProps> = ({ post }) => {
       <img src={MyImage} className="photo" />
       <div className="post-details-container">
         <div className="reactions-container">
-          <div className="likes reaction-item" onClick={handleLikesClick}>
-            <CiHeart className="icon" />
-            <div className="clickable item-number">
-              {likedUserIds?.length ?? 0}
-            </div>
+          <div
+            className="likes reaction-item clickable"
+            onClick={handleLikesClick}
+          >
+            {likedUserIdsSet.has(userId) ? (
+              <FaHeart className="icon" />
+            ) : (
+              <CiHeart className="icon" />
+            )}
+            <div className="item-number">{likedUserIds?.length ?? 0}</div>
           </div>
           <div
             className="clickable reaction-item"
