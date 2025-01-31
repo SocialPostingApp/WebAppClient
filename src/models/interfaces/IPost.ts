@@ -7,6 +7,5 @@ export interface IPost {
   review: string;
   image?: string;
   rate: number;
-  likesCount: number;
   comments?: string[];
 }
