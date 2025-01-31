@@ -5,8 +5,10 @@ import { FaRegComment } from 'react-icons/fa';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
 import MyImage from './book.jpg';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getCommentsCountByPost } from '../../services/commentService';
+import { useAppContext } from '../../context/appContext';
+import { addLike } from '../../services/likeService';
 
 interface IProps {
   post: IPost;
@@ -14,13 +16,41 @@ interface IProps {
 
 const Post: React.FC<IProps> = ({ post }) => {
   const navigate = useNavigate();
+  const { userId } = useAppContext();
+  const postId = post._id;
+  // const queryClient = useQueryClient();
+
   const { data: commentsCount } = useQuery<number>(
-    ['commentCount', post._id],
-    () => getCommentsCountByPost(post._id)
+    ['commentCount', postId],
+    () => getCommentsCountByPost(postId)
   );
 
-  const handleClick = (): void => {
-    navigate(`/comments/${post._id}`);
+  // const { data: likedUserIds } = useQuery<number>(
+  //   ['likes', postId],
+  //   () => (postId)
+  // );
+
+  const addLikeMutation = useMutation(
+    async () => {
+      if (!postId) throw new Error('Post ID not found');
+      return addLike(postId, userId);
+    },
+    {
+      onSuccess: () => {
+        // queryClient.invalidateQueries(['likes', postId]);
+      },
+      onError: (error) => {
+        console.error('Error adding comment:', error);
+      },
+    }
+  );
+
+  const handleCommentsClick = (): void => {
+    navigate(`/comments/${postId}`);
+  };
+
+  const handleLikesClick = (): void => {
+    addLikeMutation.mutate();
   };
 
   return (
@@ -36,11 +66,14 @@ const Post: React.FC<IProps> = ({ post }) => {
       <img src={MyImage} className="photo" />
       <div className="post-details-container">
         <div className="reactions-container">
-          <div className="likes reaction-item">
+          <div className="likes reaction-item" onClick={handleLikesClick}>
             <CiHeart className="icon" />
-            <div className="item-number">{post.likesCount ?? 0}</div>
+            <div className="clickable item-number">{post.likesCount ?? 0}</div>
           </div>
-          <div className="comments reaction-item" onClick={handleClick}>
+          <div
+            className="clickable reaction-item"
+            onClick={handleCommentsClick}
+          >
             <FaRegComment className="icon" />
             <div className="item-number">{commentsCount ?? 0}</div>
           </div>
