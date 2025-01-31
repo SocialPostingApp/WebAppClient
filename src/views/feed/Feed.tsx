@@ -3,6 +3,7 @@ import Post from '../../components/post/post';
 import { IPost } from '../../models/index';
 import { getAllPosts } from '../../services/postService';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import BottomNavbar from '../../components/bottomNavbar/BottomNavbar';
 import './style.css';
 
 const Feed: React.FC = () => {
@@ -45,6 +46,7 @@ const Feed: React.FC = () => {
           ))}
         </InfiniteScroll>
       </div>
+      <BottomNavbar />
     </div>
   );
 };

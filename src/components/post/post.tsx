@@ -26,14 +26,25 @@ const Post: React.FC<IProps> = ({ post }) => {
   return (
     <div className="post-container">
       <div className="user-name-row">
-        <div className="user-name">{post.owner.name}'s review</div>
+        <div className="user-name">
+          {post.title} - {post.owner.name}'s review
+        </div>
       </div>
       <div className="review-container">
         <div className="review">{post.review}</div>
       </div>
-      {/* <div className="photo">{post.image}</div> */}
-
-      <img src={MyImage} className="photo" />
+      <div className="photo">
+        <img
+          src={
+            post.image
+              ? `${import.meta.env.VITE_REACT_APP_API_URL}/uploads/${
+                  post.image
+                }`
+              : MyImage
+          }
+          alt="Uploaded File"
+        />
+      </div>
       <div className="post-details-container">
         <div className="reactions-container">
           <div className="likes reaction-item">
