@@ -18,7 +18,7 @@ export const getAllPosts = async (page: number): Promise<IPostResponse> => {
     },
   });
 
-  return response.data;
+  return response?.data ?? { posts: [], hasMore: false };
 };
 
 export const addPost = async (

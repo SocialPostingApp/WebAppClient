@@ -76,7 +76,6 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
         review: inputReview,
         image: image,
         rate: rate,
-        likesCount: 0,
       };
 
       addPostMutation.mutate(newPost);
