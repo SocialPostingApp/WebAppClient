@@ -17,6 +17,20 @@ export const getCommentsByPost = async (
   return response.data;
 };
 
+export const getCommentsCountByPost = async (
+  postId: string
+): Promise<number> => {
+  const response = await apiClient.get(`/comment/post/${postId}`, {
+    headers: {
+      Authorization: `JWT ${localStorage.getItem(
+        LocalStorageKeys.ACCESS_TOKEN_KEY
+      )}`,
+    },
+  });
+
+  return response.data?.amount ?? 0;
+};
+
 export const addComment = async (
   postId: string,
   message: string,

@@ -5,6 +5,8 @@ import { FaRegComment } from 'react-icons/fa';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
 import MyImage from './book.jpg';
+import { useQuery } from 'react-query';
+import { getCommentsCountByPost } from '../../services/commentService';
 
 interface IProps {
   post: IPost;
@@ -12,6 +14,10 @@ interface IProps {
 
 const Post: React.FC<IProps> = ({ post }) => {
   const navigate = useNavigate();
+  const { data: commentsCount } = useQuery<number>(
+    ['commentCount', post._id],
+    () => getCommentsCountByPost(post._id)
+  );
 
   const handleClick = (): void => {
     navigate(`/comments/${post._id}`);
@@ -36,7 +42,7 @@ const Post: React.FC<IProps> = ({ post }) => {
           </div>
           <div className="comments reaction-item" onClick={handleClick}>
             <FaRegComment className="icon" />
-            <div className="item-number">12</div>
+            <div className="item-number">{commentsCount ?? 0}</div>
           </div>
         </div>
         <div className="rate reaction-item">
