@@ -5,8 +5,6 @@ import { getAllPosts } from '../../services/postService';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import './style.css';
 
-export const OFFSET = 2;
-
 const Feed: React.FC = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [page, setPage] = useState(1);
@@ -20,7 +18,7 @@ const Feed: React.FC = () => {
 
       if (newPosts.length) {
         setPosts((prevPosts) => [...prevPosts, ...newPosts]);
-        setPage(page + OFFSET);
+        setPage(page + 1);
       }
     } catch (error) {
       console.error('Error loading more posts:', error);
