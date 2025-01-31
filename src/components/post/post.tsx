@@ -1,5 +1,5 @@
 import React from 'react';
-import { IPost } from '../../models/index';
+import { IPost, IUser } from '../../models/index';
 import { CiStar, CiHeart } from 'react-icons/ci';
 import { FaRegComment } from 'react-icons/fa';
 import './style.css';
@@ -8,7 +8,7 @@ import MyImage from './book.jpg';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { getCommentsCountByPost } from '../../services/commentService';
 import { useAppContext } from '../../context/appContext';
-import { addLike } from '../../services/likeService';
+import { addLike, getLikedUserIds } from '../../services/likeService';
 
 interface IProps {
   post: IPost;
@@ -18,17 +18,17 @@ const Post: React.FC<IProps> = ({ post }) => {
   const navigate = useNavigate();
   const { userId } = useAppContext();
   const postId = post._id;
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const { data: commentsCount } = useQuery<number>(
     ['commentCount', postId],
     () => getCommentsCountByPost(postId)
   );
 
-  // const { data: likedUserIds } = useQuery<number>(
-  //   ['likes', postId],
-  //   () => (postId)
-  // );
+  const { data: likedUserIds } = useQuery<IUser['_id'][]>(
+    ['likes', postId],
+    () => getLikedUserIds(postId)
+  );
 
   const addLikeMutation = useMutation(
     async () => {
@@ -37,7 +37,7 @@ const Post: React.FC<IProps> = ({ post }) => {
     },
     {
       onSuccess: () => {
-        // queryClient.invalidateQueries(['likes', postId]);
+        queryClient.invalidateQueries(['likes', postId]);
       },
       onError: (error) => {
         console.error('Error adding comment:', error);
@@ -68,7 +68,9 @@ const Post: React.FC<IProps> = ({ post }) => {
         <div className="reactions-container">
           <div className="likes reaction-item" onClick={handleLikesClick}>
             <CiHeart className="icon" />
-            <div className="clickable item-number">{post.likesCount ?? 0}</div>
+            <div className="clickable item-number">
+              {likedUserIds?.length ?? 0}
+            </div>
           </div>
           <div
             className="clickable reaction-item"

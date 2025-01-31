@@ -14,3 +14,15 @@ export const addLike = async (postId: string, userId: string) => {
     }
   );
 };
+
+export const getLikedUserIds = async (postId: string) => {
+  const response = await apiClient.get(`/like/${postId}`, {
+    headers: {
+      Authorization: `JWT ${localStorage.getItem(
+        LocalStorageKeys.ACCESS_TOKEN_KEY
+      )}`,
+    },
+  });
+
+  return response.data;
+};
