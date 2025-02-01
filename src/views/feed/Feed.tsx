@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import BottomNavbar from '../../components/bottomNavbar/BottomNavbar';
 import { useAppContext } from '../../context/appContext';
 import { useInfiniteQuery } from 'react-query';
+import Spinner from '../../components/spinner/Spinner';
 import './style.css';
 
 interface IProps {
@@ -15,7 +16,7 @@ interface IProps {
 const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
   const { userId } = useAppContext();
 
-  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
     isProfile ? ['posts', userId] : ['posts'],
     ({ pageParam = 1 }) => getPosts(pageParam, userId),
     {
@@ -24,8 +25,11 @@ const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
     }
   );
 
-  const posts: IPost[] = data?.pages.flatMap((page) => page.posts) || [];
+  if (isLoading) {
+    return <Spinner />;
+  }
 
+  const posts: IPost[] = data?.pages.flatMap((page) => page.posts) || [];
   return (
     <div className="feed-page">
       <div id="scrollableFeed" className="feed-container">
@@ -34,7 +38,7 @@ const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
             dataLength={posts.length}
             next={fetchNextPage}
             hasMore={!!hasNextPage}
-            loader={<p className="loading-text">Loading more posts...</p>}
+            loader={<Spinner />}
             scrollableTarget="scrollableFeed"
             className="infinite-scroll-wrapper"
           >

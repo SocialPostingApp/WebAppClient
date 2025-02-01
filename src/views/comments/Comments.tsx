@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { getCommentsByPost, addComment } from '../../services/commentService';
 import { useParams } from 'react-router-dom';
 import { useAppContext } from '../../context/appContext';
+import Spinner from '../../components/spinner/Spinner';
 
 const Comments: React.FC = () => {
   const { postId } = useParams();
@@ -46,7 +47,7 @@ const Comments: React.FC = () => {
     }
   };
 
-  if (isLoading) return <p>Loading comments...</p>;
+  if (isLoading) return <Spinner />;
   if (error instanceof Error) return <p>Error: {error.message}</p>;
 
   return (
