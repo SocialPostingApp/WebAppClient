@@ -22,18 +22,24 @@ const BottomNavbar: React.FC = () => {
 
   return (
     <div className="bottom-navbar-container">
-      <CreatePost isModalOpen={isModalOpen} onClose={closeModal} />
-      <CiUser
-        className="navbar-icon"
-        size={50}
-        onClick={() => handleNavigation('/profile')}
-      />
-      <CiSquarePlus className="navbar-icon" size={50} onClick={openModal} />
-      <CiHome
-        className="navbar-icon"
-        size={50}
-        onClick={() => handleNavigation('/home')}
-      />
+      <div className="edit-user-container"></div>
+      <div className="user-actions">
+        <CreatePost isModalOpen={isModalOpen} onClose={closeModal} />
+        <CiUser
+          className="navbar-icon"
+          size={50}
+          onClick={() => handleNavigation('/profile')}
+        />
+        <CiSquarePlus className="navbar-icon" size={50} onClick={openModal} />
+        <CiHome
+          className="navbar-icon"
+          size={50}
+          onClick={() => handleNavigation('/home')}
+        />
+      </div>
+      <div className="logout-container">
+        <div>logout</div>
+      </div>
     </div>
   );
 };
