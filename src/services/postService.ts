@@ -36,7 +36,7 @@ export const getPostsByUserId = async (
     }
   );
 
-  return response.data;
+  return response?.data ?? { posts: [], hasMore: false };
 };
 
 export const addPost = async (

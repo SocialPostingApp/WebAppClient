@@ -1,9 +1,7 @@
 import React from 'react';
 import './spinner.css';
 
-interface IProps {}
-
-const Spinner: React.FC<IProps> = () => {
+const Spinner: React.FC = () => {
   return (
     <div className="spinner-container">
       <div className="spinner"></div>
