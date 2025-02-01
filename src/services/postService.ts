@@ -21,6 +21,24 @@ export const getAllPosts = async (page: number): Promise<IPostResponse> => {
   return response?.data ?? { posts: [], hasMore: false };
 };
 
+export const getPostsByUserId = async (
+  page: number,
+  userId: string
+): Promise<IPostResponse> => {
+  const response = await apiClient.get(
+    `/post?sender=${userId}&page=${page}&limit=${OFFSET}`,
+    {
+      headers: {
+        Authorization: `JWT ${localStorage.getItem(
+          LocalStorageKeys.ACCESS_TOKEN_KEY
+        )}`,
+      },
+    }
+  );
+
+  return response.data;
+};
+
 export const addPost = async (
   post: Omit<IPost, 'owner' | '_id'>,
   userId: IUser['_id']
@@ -36,6 +54,18 @@ export const addPost = async (
       },
     }
   );
+
+  return response.data;
+};
+
+export const deletePost = async (postId: string): Promise<IPost> => {
+  const response = await apiClient.delete(`/post/${postId}`, {
+    headers: {
+      Authorization: `JWT ${localStorage.getItem(
+        LocalStorageKeys.ACCESS_TOKEN_KEY
+      )}`,
+    },
+  });
 
   return response.data;
 };

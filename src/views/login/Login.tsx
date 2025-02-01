@@ -43,7 +43,7 @@ function Login() {
 
       toast.success('Logged in successfully');
 
-      navigate('/', { replace: true });
+      navigate('/home', { replace: true });
     } catch (err) {
       toast.error('Incorrect email or password.\nPlease try again');
     }
@@ -64,7 +64,7 @@ function Login() {
       localStorage.setItem(LocalStorageKeys.USER_ID, loginGoogleRes.user._id);
       setUserId(loginGoogleRes.user._id);
 
-      navigate('/', { replace: true });
+      navigate('/home', { replace: true });
     } catch (err) {
       console.log(err);
     }

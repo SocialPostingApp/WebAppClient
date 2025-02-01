@@ -1,19 +1,26 @@
 import { useState, useEffect } from 'react';
 import Post from '../../components/post/post';
 import { IPost } from '../../models/index';
-import { getAllPosts } from '../../services/postService';
+import { IPostResponse } from '../../services/postService';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import BottomNavbar from '../../components/bottomNavbar/BottomNavbar';
 import './style.css';
+import { useAppContext } from '../../context/appContext';
 
-const Feed: React.FC = () => {
+interface IProps {
+  isProfile?: boolean;
+  getPosts: (page: number, userId: string) => Promise<IPostResponse>;
+}
+
+const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const { userId } = useAppContext();
 
   const fetchMorePosts = async () => {
     try {
-      const postPagesResponse = await getAllPosts(page);
+      const postPagesResponse = await getPosts(page, userId);
       const newPosts = postPagesResponse.posts;
       setHasMore(postPagesResponse.hasMore);
 
@@ -42,7 +49,7 @@ const Feed: React.FC = () => {
           className="infinite-scroll-wrapper"
         >
           {posts.map((post, index) => (
-            <Post key={index} post={post} />
+            <Post isProfile={isProfile} key={index} post={post} />
           ))}
         </InfiniteScroll>
       </div>
