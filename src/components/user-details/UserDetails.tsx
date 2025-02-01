@@ -1,9 +1,18 @@
-import { getUserNameFromLocalStorage } from '../../utils/getUserName';
+import { getUserFromLocalStorage } from '../../utils/getUserName';
 import './userDetails.css';
 import DefaultProfilePic from './Default_pfp.jpg';
+import { LiaEdit } from 'react-icons/lia';
+import { useNavigate } from 'react-router-dom';
+import { Routes } from '../../models/enums/routes';
+import { IUser } from '../../models';
 
 const UserDetails: React.FC = () => {
-  const userName = getUserNameFromLocalStorage();
+  const user: IUser = getUserFromLocalStorage();
+  const navigate = useNavigate();
+
+  const handleEditProfile = () => {
+    navigate(Routes.EDIT_PROFILE);
+  };
 
   return (
     <div className="user-details-row">
@@ -12,19 +21,20 @@ const UserDetails: React.FC = () => {
           <img
             className="picture"
             src={
-              // post.image
-              //   ? `${import.meta.env.VITE_REACT_APP_API_URL}/uploads/${
-              //       post.image
-              //     }`
-              //   :
-              DefaultProfilePic
+              user.imgUrl
+                ? `${import.meta.env.VITE_REACT_APP_API_URL}/uploads/${
+                    user.imgUrl
+                  }`
+                : DefaultProfilePic
             }
             alt="Uploaded File"
           />
         </div>
 
-        <div className="name-container">{userName}</div>
-        <div className="edit-container"></div>
+        <div className="name-container">{user.name}</div>
+        <div className="edit-container">
+          <LiaEdit className="edit-profile-icon" onClick={handleEditProfile} />
+        </div>
       </div>
     </div>
   );

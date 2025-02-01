@@ -9,12 +9,14 @@
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: var(--color-primary);
 }
 
 .pic-name-container {
   display: flex;
   align-items: center;
   width: 100%;
+  height: inherit;
 }
 
 .pic-container {
@@ -43,4 +45,14 @@
 .edit-container {
   display: flex;
   flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+.edit-profile-icon {
+  height: 30px;
+  width: 30px;
+  margin: 0 20px;
+  cursor: pointer;
 }
