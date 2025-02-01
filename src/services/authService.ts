@@ -108,12 +108,12 @@ export const logout = async () => {
   );
 };
 
-export const updateUser = (
+export const updateUser = async (
   userId: IUser['_id'],
   name: string,
   imgUrl: string
 ): Promise<IUser> => {
-  return apiClient.put(
+  const res = await apiClient.put(
     `/auth/${userId}`,
     {
       name,
@@ -123,4 +123,6 @@ export const updateUser = (
       headers: headers(),
     }
   );
+
+  return res.data;
 };

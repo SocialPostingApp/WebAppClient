@@ -7,9 +7,13 @@ import { IUser } from '../../models';
 import { getUserFromLocalStorage } from '../../utils/getUserName';
 import { updateUser } from '../../services/authService';
 import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
+import FileUpload from '../../components/fileUpload/FileUpload';
+import { Routes } from '../../models/enums/routes';
+import { useNavigate } from 'react-router-dom';
 
 const EditProfile: React.FC = () => {
   const user: IUser = getUserFromLocalStorage();
+  const navigate = useNavigate();
 
   const [name, setName] = useState(user.name);
   const [imgUrl, setImgUrl] = useState(user.imgUrl ?? '');
@@ -30,6 +34,10 @@ const EditProfile: React.FC = () => {
     e: ChangeEvent<HTMLInputElement>,
     setter: React.Dispatch<React.SetStateAction<string>>
   ) => setter(e.target.value);
+
+  const saveImage = (image: string) => {
+    setImgUrl(image);
+  };
 
   const updateMutation = useMutation(
     ({ name, imgUrl }: { name: string; imgUrl: string }) =>
@@ -53,6 +61,8 @@ const EditProfile: React.FC = () => {
             );
 
             toast.success('updateed successfully.');
+
+            navigate(Routes.PROFILE);
           },
           onError: () => {
             toast.error('Update failed');
@@ -80,6 +90,8 @@ const EditProfile: React.FC = () => {
             onChange={(e) => handleInputChange(e, setName)}
           />
         </div>
+
+        <FileUpload saveImageName={saveImage} />
 
         <button onClick={update} className="update-button">
           Update

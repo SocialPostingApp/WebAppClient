@@ -103,3 +103,29 @@
   text-decoration: underline;
   color: var(--color-primary);
 }
+
+button {
+  width: 80px;
+  padding: 10px;
+
+  background-color: var(--color-primary);
+  color: white;
+
+  text-align: center;
+  font-weight: bold;
+
+  border: none;
+  border-radius: 6px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+
+  font-size: 16px;
+}
