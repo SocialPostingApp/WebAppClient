@@ -1,10 +1,10 @@
-import axios from "axios";
-import { saveTokens, refresh } from "../services/authService";
+import axios from 'axios';
+import { saveTokens, refresh } from '../services/authService';
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_REACT_APP_API_URL + "/api",
+  baseURL: import.meta.env.VITE_REACT_APP_API_URL + '/api',
   headers: {
-    "Content-type": "application/json",
+    'Content-type': 'application/json',
   },
 });
 
@@ -14,8 +14,7 @@ apiClient.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    if (error.response && error.response.data === "Unauthorized") {
-      
+    if (error.response && error.response.data === 'Unauthorized') {
       try {
         const accessToken = await refreshTokens();
         // Retry the original request with new tokens
@@ -32,7 +31,10 @@ apiClient.interceptors.response.use(
 async function refreshTokens() {
   const refreshResponse = await refresh();
   const { accessToken, refreshToken } = refreshResponse.data;
-  saveTokens({ accessToken, refreshToken });
+  if (accessToken && refreshToken) {
+    saveTokens({ accessToken, refreshToken });
+  }
+
   return accessToken;
 }
 
