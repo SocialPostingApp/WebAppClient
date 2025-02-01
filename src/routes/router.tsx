@@ -3,17 +3,21 @@ import Login from '../views/login/Login';
 import Feed from '../views/feed/Feed';
 import Register from '../views/register/Register';
 import Comments from '../views/comments/Comments';
+import { getTokens } from '../services/authService';
 import { getAllPosts, getPostsByUserId } from '../services/postService';
 
 const authLoader = async () => {
-  // AUTH LOGIC
-  // REDIRECT TO LOGIN PAGE IF NOT AUTHENTICATED
-  return redirect('/home');
+  const tokens = getTokens();
+  if (tokens.accessToken && tokens.refreshToken) {
+    return null;
+  }
+  return redirect('/login');
 };
 
 export const router = createBrowserRouter([
   {
     path: '/home',
+    loader: authLoader,
     element: <Feed key="home" getPosts={getAllPosts} />,
   },
   {
