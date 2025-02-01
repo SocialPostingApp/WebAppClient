@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: space-around;
   direction: rtl;
+  box-sizing: border-box;
 
   width: 100%;
   height: 60px;
@@ -38,7 +39,7 @@
   cursor: pointer;
 }
 
-.logout-button {
+.border-button {
   display: flex;
   align-items: center;
   justify-content: center;

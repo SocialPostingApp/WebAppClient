@@ -28,9 +28,17 @@ const BottomNavbar: React.FC = () => {
     handleNavigation(Routes.LOGIN);
   };
 
+  const handleEditProfile = () => {
+    handleNavigation(Routes.EDIT_PROFILE);
+  };
+
   return (
     <div className="bottom-navbar-container">
-      <div className="edit-user-container"></div>
+      <div className="edit-user-container">
+        <div className="border-button" onClick={handleEditProfile}>
+          Edit Profile
+        </div>
+      </div>
       <div className="user-actions">
         <CreatePost isModalOpen={isModalOpen} onClose={closeModal} />
         <CiUser
@@ -46,7 +54,7 @@ const BottomNavbar: React.FC = () => {
         />
       </div>
       <div className="logout-container">
-        <div className="logout-button" onClick={handleLogout}>
+        <div className="border-button" onClick={handleLogout}>
           Logout
         </div>
       </div>
