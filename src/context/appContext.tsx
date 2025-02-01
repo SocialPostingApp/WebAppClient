@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { LocalStorageKeys } from '../models/enums/localStorageKeys';
+import { getUserIdFromLocalStorage } from '../utils/getUserId';
 
 // Define the shape of the context
 interface AppContextType {
@@ -12,9 +13,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 // Provider component
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [userId, setUserId] = useState<string>(
-    localStorage.getItem(LocalStorageKeys.USER_ID) || '-1'
-  );
+  const [userId, setUserId] = useState<string>(getUserIdFromLocalStorage());
 
   return (
     <AppContext.Provider value={{ userId, setUserId: setUserId }}>

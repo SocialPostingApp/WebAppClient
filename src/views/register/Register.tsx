@@ -78,8 +78,8 @@ function Register() {
         {
           onSuccess: (registerRes) => {
             localStorage.setItem(
-              LocalStorageKeys.USER_ID,
-              registerRes.data._id
+              LocalStorageKeys.USER,
+              JSON.stringify(registerRes.data)
             );
             setUserId(registerRes.data._id);
 

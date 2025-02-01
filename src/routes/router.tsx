@@ -7,6 +7,7 @@ import { getTokens } from '../services/authService';
 import { getAllPosts, getPostsByUserId } from '../services/postService';
 import { Routes } from '../models/enums/routes';
 import EditProfile from '../views/editProfile/editProfile';
+import UserDetails from '../components/user-details/UserDetails';
 
 const authLoader = async () => {
   const tokens = getTokens();
@@ -29,7 +30,9 @@ export const router = createBrowserRouter([
   {
     path: Routes.PROFILE,
     element: (
-      <Feed key="profile" isProfile={true} getPosts={getPostsByUserId} />
+      <Feed key="profile" isProfile={true} getPosts={getPostsByUserId}>
+        <UserDetails />
+      </Feed>
     ),
   },
   {

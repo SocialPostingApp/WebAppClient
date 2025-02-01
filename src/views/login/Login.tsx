@@ -39,7 +39,10 @@ function Login() {
         refreshToken: loginRes.refreshToken,
       });
 
-      localStorage.setItem(LocalStorageKeys.USER_ID, loginRes.user._id);
+      localStorage.setItem(
+        LocalStorageKeys.USER,
+        JSON.stringify(loginRes.user)
+      );
       setUserId(loginRes.user._id);
 
       toast.success('Logged in successfully');
@@ -62,7 +65,10 @@ function Login() {
         refreshToken: loginGoogleRes.refreshToken,
       });
 
-      localStorage.setItem(LocalStorageKeys.USER_ID, loginGoogleRes.user._id);
+      localStorage.setItem(
+        LocalStorageKeys.USER,
+        JSON.stringify(loginGoogleRes.user)
+      );
       setUserId(loginGoogleRes.user._id);
 
       navigate(Routes.HOME, { replace: true });
