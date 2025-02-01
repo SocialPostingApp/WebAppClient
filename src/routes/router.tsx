@@ -5,37 +5,42 @@ import Register from '../views/register/Register';
 import Comments from '../views/comments/Comments';
 import { getTokens } from '../services/authService';
 import { getAllPosts, getPostsByUserId } from '../services/postService';
+import { Routes } from '../models/enums/routes';
 
 const authLoader = async () => {
   const tokens = getTokens();
   if (tokens.accessToken && tokens.refreshToken) {
     return null;
   }
-  return redirect('/login');
+  return redirect(Routes.LOGIN);
 };
 
 export const router = createBrowserRouter([
   {
-    path: '/home',
+    path: '/',
+    loader: () => redirect(Routes.HOME),
+  },
+  {
+    path: Routes.HOME,
     loader: authLoader,
     element: <Feed key="home" getPosts={getAllPosts} />,
   },
   {
-    path: '/profile',
+    path: Routes.PROFILE,
     element: (
       <Feed key="profile" isProfile={true} getPosts={getPostsByUserId} />
     ),
   },
   {
-    path: '/login',
+    path: Routes.LOGIN,
     element: <Login />,
   },
   {
-    path: '/register',
+    path: Routes.REGISTER,
     element: <Register />,
   },
   {
-    path: '/comments/:postId',
+    path: `${Routes.COMMENTS}/:postId`,
     element: <Comments />,
   },
 ]);
