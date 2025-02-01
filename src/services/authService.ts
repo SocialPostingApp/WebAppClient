@@ -108,8 +108,19 @@ export const logout = async () => {
   );
 };
 
-// export const getUser = (userId: IUser['_id']) => {
-//   return apiClient.get(`/users/${userId}`, {
-//     headers: headers(),
-//   });
-// }
+export const updateUser = (
+  userId: IUser['_id'],
+  name: string,
+  imgUrl: string
+): Promise<IUser> => {
+  return apiClient.put(
+    `/auth/${userId}`,
+    {
+      name,
+      imgUrl,
+    },
+    {
+      headers: headers(),
+    }
+  );
+};

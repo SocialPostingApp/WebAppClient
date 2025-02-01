@@ -1,0 +1,105 @@
+.update-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-family: var(--display-font);
+}
+
+.update-box {
+  width: 500px;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.update-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 12px;
+}
+
+.form-label {
+  display: flex;
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.required {
+  color: red;
+}
+
+.form-input {
+  width: 100%; /* Ensure input fields fit properly */
+  max-width: 400px; /* Restrict max width */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  outline: none;
+  box-sizing: border-box; /* Prevent width issues */
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  color: black;
+}
+
+.update-button {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.update-button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.update-footer {
+  text-align: center;
+  padding-top: 16px;
+  font-size: 14px;
+}
+
+.update-link {
+  text-decoration: underline;
+  color: var(--color-primary);
+}

@@ -1,27 +1,18 @@
 import { ChangeEvent, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useMutation } from 'react-query';
-import { register as registerRequest } from '../../services/authService';
-import { Link, useNavigate } from 'react-router-dom';
-
 import Joi from 'joi';
-import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
-
 import './editProfile.css';
-import { useAppContext } from '../../context/appContext';
+import { IUser } from '../../models';
+import { getUserFromLocalStorage } from '../../utils/getUserName';
+import { updateUser } from '../../services/authService';
 import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
-import { Routes } from '../../models/enums/routes';
-import { getUserIdFromLocalStorage } from '../../utils/getUserId';
 
 const EditProfile: React.FC = () => {
-  const navigate = useNavigate();
-  const { setUserId } = useAppContext();
+  const user: IUser = getUserFromLocalStorage();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState(user.name);
+  const [imgUrl, setImgUrl] = useState(user.imgUrl ?? '');
 
   const schema = Joi.object({
     name: Joi.string()
@@ -31,78 +22,52 @@ const EditProfile: React.FC = () => {
         'string.pattern.base': 'Name can only contain letters and spaces',
         'any.required': 'Please fill in all fields',
       }),
-    email: Joi.string()
-      .email({ tlds: { allow: false } })
-      .required()
-      .messages({
-        'string.email': 'Invalid email address.',
-        'any.required': 'Email is required.',
-      }),
-    password: Joi.string().required().messages({
-      'any.required': 'Please fill in all fields',
-    }),
   });
 
-  const validationResult = schema.validate(
-    { name, email, password },
-    { abortEarly: false }
-  );
+  const validationResult = schema.validate({ name }, { abortEarly: false });
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
     setter: React.Dispatch<React.SetStateAction<string>>
   ) => setter(e.target.value);
 
-  const registerMutation = useMutation(
-    ({
-      name,
-      email,
-      password,
-    }: {
-      name: string;
-      email: string;
-      password: string;
-    }) => registerRequest(name, email, password)
+  const updateMutation = useMutation(
+    ({ name, imgUrl }: { name: string; imgUrl: string }) =>
+      updateUser(user._id, name, imgUrl)
   );
 
-  const register = async () => {
-    setFormSubmitted(true);
-
+  const update = async () => {
     if (validationResult.error) {
       toast.error('Please review and correct the information in all fields.');
       return;
     }
 
     try {
-      await registerMutation.mutateAsync(
-        { name, email, password },
+      await updateMutation.mutateAsync(
+        { name, imgUrl },
         {
-          onSuccess: (registerRes) => {
-            const userId = getUserIdFromLocalStorage();
+          onSuccess: (updateRes) => {
+            localStorage.setItem(
+              LocalStorageKeys.USER,
+              JSON.stringify(updateRes)
+            );
 
-            if (userId) {
-              localStorage.setItem(userId, registerRes.data._id);
-
-              setUserId(registerRes.data._id);
-            }
-
-            toast.success('Registered successfully. You can now login.');
-            navigate(Routes.LOGIN, { replace: true });
+            toast.success('updateed successfully.');
           },
           onError: () => {
-            toast.error('Registration failed');
+            toast.error('Update failed');
           },
         }
       );
     } catch {
-      toast.error('Registration failed');
+      toast.error('Update failed');
     }
   };
 
   return (
-    <div className="register-container">
-      <div className="register-box">
-        <h1 className="register-title">Edit Profile</h1>
+    <div className="update-container">
+      <div className="update-box">
+        <h1 className="update-title">Edit Profile</h1>
 
         <div className="form-group">
           <label htmlFor="name" className="form-label">
@@ -116,55 +81,9 @@ const EditProfile: React.FC = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="email" className="form-label">
-            Email <span className="required">*</span>
-          </label>
-          <input
-            id="email"
-            className="form-input"
-            value={email}
-            onChange={(e) => handleInputChange(e, setEmail)}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="password" className="form-label">
-            Password <span className="required">*</span>
-          </label>
-          <div className="password-container">
-            <input
-              id="password"
-              className="form-input"
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => handleInputChange(e, setPassword)}
-            />
-            <button
-              className="password-toggle"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? (
-                <EyeIcon className="icon" />
-              ) : (
-                <EyeSlashIcon className="icon" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        <button onClick={register} className="register-button">
-          Register
+        <button onClick={update} className="update-button">
+          Update
         </button>
-
-        <div className="register-footer">
-          <p>
-            Already have an account?{' '}
-            <Link to="/login" replace className="register-link">
-              Login here
-            </Link>
-          </p>
-        </div>
       </div>
       <Toaster />
     </div>
