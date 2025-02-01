@@ -24,7 +24,7 @@ const BottomNavbar: React.FC = () => {
   const handleLogout = () => {
     logout();
     localStorage.clear();
-    navigate('/login');
+    handleNavigation('/login');
   };
 
   return (
