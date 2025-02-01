@@ -5,12 +5,12 @@ import { register as registerRequest } from '../../services/authService';
 import { Link, useNavigate } from 'react-router-dom';
 
 import Joi from 'joi';
-import { Tooltip } from 'react-tooltip';
 import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
 
 import './Register.css';
 import { useAppContext } from '../../context/appContext';
 import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
+import { Routes } from '../../models/enums/routes';
 
 function Register() {
   const navigate = useNavigate();
@@ -84,7 +84,7 @@ function Register() {
             setUserId(registerRes.data._id);
 
             toast.success('Registered successfully. You can now login.');
-            navigate('/login', { replace: true });
+            navigate(Routes.LOGIN, { replace: true });
           },
           onError: () => {
             toast.error('Registration failed');
