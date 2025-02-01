@@ -104,6 +104,10 @@
   color: var(--color-primary);
 }
 
+.update-button:hover {
+  background-color: var(--color-primary-hover);
+}
+
 button {
   width: 80px;
   padding: 10px;
@@ -128,4 +132,8 @@ textarea {
   box-sizing: border-box;
 
   font-size: 16px;
+}
+
+.file-upload-container {
+  padding: 10px;
 }

@@ -91,7 +91,9 @@ const EditProfile: React.FC = () => {
           />
         </div>
 
-        <FileUpload saveImageName={saveImage} />
+        <div className="file-upload-container">
+          <FileUpload saveImageName={saveImage} />
+        </div>
 
         <button onClick={update} className="update-button">
           Update
