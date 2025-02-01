@@ -12,21 +12,54 @@
   max-width: 600px;
 }
 
-.user-name-row {
+.header {
   display: flex;
   flex-direction: row;
-  justify-content: center;
   align-items: center;
+
   width: 100%;
-  padding: 10px 0;
+  height: 70px;
+  padding: 10px 5px;
   margin-bottom: 10px;
+
   border-bottom: 1px solid #b6938554;
+  box-sizing: border-box;
+
+  position: relative;
 }
 
-.user-name {
+.header .options {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+}
+
+.header .options > :not(:last-child) {
+  margin-right: 10px;
+}
+
+.options .icon {
   color: var(--color-primary);
-  font-size: 25px;
+}
+
+.options .icon:hover {
+  cursor: pointer;
+}
+
+.post-title {
+  color: var(--color-primary);
+
+  font-size: 20px;
   font-weight: bold;
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 80%;
 }
 
 .review-container {
