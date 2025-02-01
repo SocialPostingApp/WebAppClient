@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { IPost, IUser } from '../../models/index';
 import { CiStar, CiHeart } from 'react-icons/ci';
-import { FaRegComment, FaHeart } from 'react-icons/fa';
+import { FaRegComment, FaHeart, FaTrashAlt, FaEdit } from 'react-icons/fa';
 import './style.css';
 import { useNavigate } from 'react-router-dom';
 import MyImage from './book.jpg';
@@ -13,12 +13,15 @@ import {
   getLikedUserIds,
   removeLike,
 } from '../../services/likeService';
+import toast from 'react-hot-toast';
+import { deletePost } from '../../services/postService';
 
 interface IProps {
   post: IPost;
+  isProfile?: boolean;
 }
 
-const Post: React.FC<IProps> = ({ post }) => {
+const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
   const navigate = useNavigate();
   const { userId } = useAppContext();
   const postId = post._id;
@@ -69,6 +72,21 @@ const Post: React.FC<IProps> = ({ post }) => {
     }
   );
 
+  const deletePostMutation = useMutation(
+    async (postId: string) => {
+      return deletePost(postId);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['posts']);
+        toast.success('Successfully deleted your post :)');
+      },
+      onError: (error) => {
+        console.error('Error deleting post:', error);
+      },
+    }
+  );
+
   const handleCommentsClick = (): void => {
     navigate(`/comments/${postId}`);
   };
@@ -81,12 +99,30 @@ const Post: React.FC<IProps> = ({ post }) => {
     }
   };
 
+  const onDelete = (): void => {
+    if (isProfile) {
+      deletePostMutation.mutate(postId);
+    }
+  };
+
+  const onEdit = (): void => {
+    if (isProfile) {
+      deletePostMutation.mutate(postId);
+    }
+  };
+
   return (
     <div className="post-container">
-      <div className="user-name-row">
-        <div className="user-name">
+      <div className="header">
+        <div className="post-title">
           {post.title} - {post.owner.name}'s review
         </div>
+        {isProfile && (
+          <div className="options">
+            <FaEdit className="icon" onClick={onEdit} />
+            <FaTrashAlt className="icon" onClick={onDelete} />
+          </div>
+        )}
       </div>
       <div className="review-container">
         <div className="review">{post.review}</div>
