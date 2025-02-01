@@ -14,6 +14,7 @@ import { useMutation } from 'react-query';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useAppContext } from '../../context/appContext';
 import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
+import { Routes } from '../../models/enums/routes';
 
 function Login() {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ function Login() {
 
       toast.success('Logged in successfully');
 
-      navigate('/home', { replace: true });
+      navigate(Routes.HOME, { replace: true });
     } catch (err) {
       toast.error('Incorrect email or password.\nPlease try again');
     }
@@ -64,7 +65,7 @@ function Login() {
       localStorage.setItem(LocalStorageKeys.USER_ID, loginGoogleRes.user._id);
       setUserId(loginGoogleRes.user._id);
 
-      navigate('/home', { replace: true });
+      navigate(Routes.HOME, { replace: true });
     } catch (err) {
       console.log(err);
     }
