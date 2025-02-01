@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
 import Post from '../../components/post/post';
 import { IPost } from '../../models/index';
 import { IPostResponse } from '../../services/postService';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import BottomNavbar from '../../components/bottomNavbar/BottomNavbar';
-import './style.css';
 import { useAppContext } from '../../context/appContext';
+import { useInfiniteQuery } from 'react-query';
+import './style.css';
 
 interface IProps {
   isProfile?: boolean;
@@ -13,29 +13,18 @@ interface IProps {
 }
 
 const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
-  const [posts, setPosts] = useState<IPost[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
   const { userId } = useAppContext();
 
-  const fetchMorePosts = async () => {
-    try {
-      const postPagesResponse = await getPosts(page, userId);
-      const newPosts = postPagesResponse.posts;
-      setHasMore(postPagesResponse.hasMore);
-
-      if (newPosts.length) {
-        setPosts((prevPosts) => [...prevPosts, ...newPosts]);
-        setPage(page + 1);
-      }
-    } catch (error) {
-      console.error('Error loading more posts:', error);
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery(
+    isProfile ? ['posts', userId] : ['posts'],
+    ({ pageParam = 1 }) => getPosts(pageParam, userId),
+    {
+      getNextPageParam: (lastPage, pages) =>
+        lastPage.hasMore ? pages.length + 1 : undefined,
     }
-  };
+  );
 
-  useEffect(() => {
-    fetchMorePosts();
-  }, []);
+  const posts: IPost[] = data?.pages.flatMap((page) => page.posts) || [];
 
   return (
     <div className="feed-page">
@@ -43,8 +32,8 @@ const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
         <div className="infinite-scroll-container">
           <InfiniteScroll
             dataLength={posts.length}
-            next={fetchMorePosts}
-            hasMore={hasMore}
+            next={fetchNextPage}
+            hasMore={!!hasNextPage}
             loader={<p className="loading-text">Loading more posts...</p>}
             scrollableTarget="scrollableFeed"
             className="infinite-scroll-wrapper"
