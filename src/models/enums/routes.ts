@@ -5,4 +5,5 @@ export enum Routes {
   PROFILE = '/profile',
   COMMENTS = '/comments',
   UPLOAD = '/upload',
+  EDIT_PROFILE = '/edit-profile',
 }
