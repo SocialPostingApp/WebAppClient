@@ -101,13 +101,13 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
 
   const onDelete = (): void => {
     if (isProfile) {
-      deletePostMutation.mutate(post._id);
+      deletePostMutation.mutate(postId);
     }
   };
 
   const onEdit = (): void => {
     if (isProfile) {
-      deletePostMutation.mutate(post._id);
+      deletePostMutation.mutate(postId);
     }
   };
 
