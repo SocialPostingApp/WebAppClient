@@ -38,20 +38,22 @@ const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
   }, []);
 
   return (
-    <div id="scrollableFeed" className="feed-container">
-      <div className="infinite-scroll-container">
-        <InfiniteScroll
-          dataLength={posts.length}
-          next={fetchMorePosts}
-          hasMore={hasMore}
-          loader={<p className="loading-text">Loading more posts...</p>}
-          scrollableTarget="scrollableFeed"
-          className="infinite-scroll-wrapper"
-        >
-          {posts.map((post, index) => (
-            <Post isProfile={isProfile} key={index} post={post} />
-          ))}
-        </InfiniteScroll>
+    <div className="feed-page">
+      <div id="scrollableFeed" className="feed-container">
+        <div className="infinite-scroll-container">
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={fetchMorePosts}
+            hasMore={hasMore}
+            loader={<p className="loading-text">Loading more posts...</p>}
+            scrollableTarget="scrollableFeed"
+            className="infinite-scroll-wrapper"
+          >
+            {posts.map((post, index) => (
+              <Post isProfile={isProfile} key={index} post={post} />
+            ))}
+          </InfiniteScroll>
+        </div>
       </div>
       <BottomNavbar />
     </div>
