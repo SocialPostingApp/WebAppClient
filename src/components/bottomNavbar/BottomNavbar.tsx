@@ -3,6 +3,8 @@ import { CiSquarePlus, CiUser, CiHome } from 'react-icons/ci';
 import CreatePost from '../../components/createPost/CreatePost';
 import './BottomNavbar.css';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../../services/authService';
+import { Routes } from '../../models/enums/routes';
 
 const BottomNavbar: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,20 +22,34 @@ const BottomNavbar: React.FC = () => {
     navigate(view);
   };
 
+  const handleLogout = () => {
+    logout();
+    localStorage.clear();
+    handleNavigation(Routes.LOGIN);
+  };
+
   return (
     <div className="bottom-navbar-container">
-      <CreatePost isModalOpen={isModalOpen} onClose={closeModal} />
-      <CiUser
-        className="navbar-icon"
-        size={50}
-        onClick={() => handleNavigation('/profile')}
-      />
-      <CiSquarePlus className="navbar-icon" size={50} onClick={openModal} />
-      <CiHome
-        className="navbar-icon"
-        size={50}
-        onClick={() => handleNavigation('/home')}
-      />
+      <div className="edit-user-container"></div>
+      <div className="user-actions">
+        <CreatePost isModalOpen={isModalOpen} onClose={closeModal} />
+        <CiUser
+          className="navbar-icon"
+          size={50}
+          onClick={() => handleNavigation(Routes.PROFILE)}
+        />
+        <CiSquarePlus className="navbar-icon" size={50} onClick={openModal} />
+        <CiHome
+          className="navbar-icon"
+          size={50}
+          onClick={() => handleNavigation(Routes.HOME)}
+        />
+      </div>
+      <div className="logout-container">
+        <div className="logout-button" onClick={handleLogout}>
+          Logout
+        </div>
+      </div>
     </div>
   );
 };

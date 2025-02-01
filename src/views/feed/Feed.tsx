@@ -31,20 +31,22 @@ const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
 
   const posts: IPost[] = data?.pages.flatMap((page) => page.posts) || [];
   return (
-    <div id="scrollableFeed" className="feed-container">
-      <div className="infinite-scroll-container">
-        <InfiniteScroll
-          dataLength={posts.length}
-          next={fetchNextPage}
-          hasMore={!!hasNextPage}
-          loader={<Spinner />}
-          scrollableTarget="scrollableFeed"
-          className="infinite-scroll-wrapper"
-        >
-          {posts.map((post, index) => (
-            <Post isProfile={isProfile} key={index} post={post} />
-          ))}
-        </InfiniteScroll>
+    <div className="feed-page">
+      <div id="scrollableFeed" className="feed-container">
+        <div className="infinite-scroll-container">
+          <InfiniteScroll
+            dataLength={posts.length}
+            next={fetchNextPage}
+            hasMore={!!hasNextPage}
+            loader={<Spinner />}
+            scrollableTarget="scrollableFeed"
+            className="infinite-scroll-wrapper"
+          >
+            {posts.map((post, index) => (
+              <Post isProfile={isProfile} key={index} post={post} />
+            ))}
+          </InfiniteScroll>
+        </div>
       </div>
       <BottomNavbar />
     </div>

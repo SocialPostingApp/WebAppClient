@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import './FileUpload.css';
 import apiClient from '../../services/httpCommon';
 import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
+import { Routes } from '../../models/enums/routes';
 
 interface IProps {
   saveImageName: (imageName) => void;
@@ -27,7 +27,7 @@ const FileUpload: React.FC<IProps> = ({ saveImageName }) => {
     formData.append('image', file);
 
     try {
-      const response = await apiClient.post('/upload', formData, {
+      const response = await apiClient.post(Routes.UPLOAD, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `JWT ${localStorage.getItem(
