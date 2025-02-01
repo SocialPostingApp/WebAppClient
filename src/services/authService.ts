@@ -99,3 +99,11 @@ export const googleSignIn = async (
     credential: credentialResponse,
   });
 };
+
+export const logout = async () => {
+  return await apiClient.post(
+    '/auth/logout',
+    {},
+    { headers: refreshTokenHeaders() }
+  );
+};

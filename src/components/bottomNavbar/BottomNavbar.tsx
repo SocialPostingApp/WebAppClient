@@ -3,6 +3,7 @@ import { CiSquarePlus, CiUser, CiHome } from 'react-icons/ci';
 import CreatePost from '../../components/createPost/CreatePost';
 import './BottomNavbar.css';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../../services/authService';
 
 const BottomNavbar: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,6 +19,12 @@ const BottomNavbar: React.FC = () => {
 
   const handleNavigation = (view: string) => {
     navigate(view);
+  };
+
+  const handleLogout = () => {
+    logout();
+    localStorage.clear();
+    navigate('/login');
   };
 
   return (
@@ -38,7 +45,9 @@ const BottomNavbar: React.FC = () => {
         />
       </div>
       <div className="logout-container">
-        <div>logout</div>
+        <div className="logout-button" onClick={handleLogout}>
+          Logout
+        </div>
       </div>
     </div>
   );
