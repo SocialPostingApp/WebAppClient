@@ -66,7 +66,7 @@ type RefreshResponse = {
 
 export const refresh = async (): Promise<AxiosResponse<RefreshResponse>> => {
   return await apiClient.post(
-    '/auth/refresh',
+    '/auth/refreshToken',
     {},
     {
       headers: refreshTokenHeaders(),
