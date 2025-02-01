@@ -107,3 +107,9 @@ export const logout = async () => {
     { headers: refreshTokenHeaders() }
   );
 };
+
+// export const getUser = (userId: IUser['_id']) => {
+//   return apiClient.get(`/users/${userId}`, {
+//     headers: headers(),
+//   });
+// }

@@ -1,0 +1,32 @@
+.user-details-row {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  height: 15vh;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pic-name-container {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+}
+
+.picture {
+  border-radius: 50%;
+  background-color: brown;
+  height: 50px;
+  width: 50px;
+  margin-right: 20px;
+}
+
+.name-container {
+  display: flex;
+  align-items: center;
+  height: inherit;
+  font-size: 30px;
+}
