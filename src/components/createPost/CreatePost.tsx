@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import FileUpload from '../fileUpload/FileUpload';
 import './CreatePost.css';
@@ -8,6 +8,7 @@ import { IPost } from '../../models';
 import { useAppContext } from '../../context/appContext';
 import toast from 'react-hot-toast';
 import StarRating from '../starRating/starRating';
+import { postSchema } from '../../schemaValidations';
 
 interface IProps {
   isModalOpen: boolean;
@@ -21,7 +22,13 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     marginRight: '-50%',
+    padding: '15px',
     transform: 'translate(-50%, -50%)',
+    background: '#f2f2f2',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+  },
+  overlay: {
+    background: 'rgb(255 255 255 / 65%)',
   },
 };
 
@@ -51,10 +58,21 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
   const [rate, setRate] = useState<number>(5);
   const [image, setImage] = useState<string>('');
 
+  const validationResult = postSchema.validate(
+    { title: inputName, review: inputReview, rate },
+    { abortEarly: false }
+  );
+
   const isSaveAllowed: boolean =
     Boolean(inputName.trim()) &&
     Boolean(inputReview.trim()) &&
     Boolean(image.trim());
+
+  useEffect(() => {
+    if (isModalOpen) {
+      clearInputs();
+    }
+  }, [isModalOpen]);
 
   const clearInputs = (): void => {
     setInputName('');
@@ -68,8 +86,10 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
   };
 
   const saveModal = (): void => {
-    if (!isSaveAllowed) {
-      toast.error('You have unfilled details, please add them :)');
+    if (validationResult.error) {
+      toast.error(
+        `You have unfilled or wrong details, please fix them :) \n${validationResult.error.message}`
+      );
     } else {
       const newPost: Omit<IPost, 'owner' | '_id'> = {
         title: inputName,
@@ -121,10 +141,7 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
             <label htmlFor="book image" className="custom-label">
               What would you rate it?
             </label>
-            <StarRating
-              totalStars={rate}
-              onRate={(rating) => setRate(rating)}
-            />
+            <StarRating onRate={(rating) => setRate(rating)} />
           </div>
         </form>
         <div className="bottom-modal">
