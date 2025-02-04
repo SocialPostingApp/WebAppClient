@@ -3,6 +3,7 @@ import './geminiReccomendation.css';
 import { useQuery } from 'react-query';
 import { GeminiResponse } from '../../models/interfaces/GeminiResponse';
 import { getGeminiReccomendation } from '../../services/gemini.service';
+import Spinner from '../spinner/Spinner';
 
 interface IProps {
   isModalOpen: boolean;
@@ -28,7 +29,10 @@ const GeminiReccomendation: React.FC<IProps> = ({
 }) => {
   const { data, isLoading, error } = useQuery<GeminiResponse>(
     ['gemini', bookName],
-    () => getGeminiReccomendation(bookName)
+    () => getGeminiReccomendation(bookName),
+    {
+      enabled: isModalOpen,
+    }
   );
 
   return (
@@ -38,14 +42,34 @@ const GeminiReccomendation: React.FC<IProps> = ({
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <div className="modal-container">
-        <div>{data?.description}</div>
-        <div className="bottom-modal">
-          <button className="clickable" onClick={onClose}>
-            close
-          </button>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="modal-container">
+          <div className="modal-introduction section-wrapper">
+            <div className="row">
+              Hey! We saw you liked
+              <div className="book-name book-title">{bookName}</div>.
+            </div>
+            <div>Therfore we would like to make a reccomendation for you:</div>
+          </div>
+
+          <div className="section-wrapper">
+            <div className="row">
+              <div className="rec-book-title book-title">{data?.title}</div> by{' '}
+              {data?.author}
+            </div>
+            <div className="description">{data?.description}</div>
+          </div>
+
+          {/* <div>{data?.description}</div> */}
+          <div className="bottom-modal">
+            <button className="clickable" onClick={onClose}>
+              close
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </Modal>
   );
 };

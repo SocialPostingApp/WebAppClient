@@ -1,6 +1,7 @@
 .modal-container {
   display: flex;
   flex-direction: column;
+  max-width: 65vw;
 }
 
 .post-form {
@@ -68,4 +69,41 @@ textarea {
 
 .clickable {
   cursor: pointer;
+}
+
+.book-title {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.book-name {
+  margin-left: 10px;
+}
+
+.rec-book-title {
+  margin-right: 10px;
+}
+
+.modal-introduction {
+  font-size: 25px;
+}
+
+.section-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.description {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
