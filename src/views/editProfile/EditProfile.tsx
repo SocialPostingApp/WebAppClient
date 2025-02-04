@@ -4,19 +4,19 @@ import { useMutation } from 'react-query';
 import Joi from 'joi';
 import './editProfile.css';
 import { IUser } from '../../models';
-import { getUserFromLocalStorage } from '../../utils/getUserName';
 import { updateUser } from '../../services/authService';
 import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
 import FileUpload from '../../components/fileUpload/FileUpload';
 import { Routes } from '../../models/enums/routes';
 import { useNavigate } from 'react-router-dom';
+import { getUserFromLocalStorage } from '../../utils/storageUtils';
 
 const EditProfile: React.FC = () => {
   const user: IUser = getUserFromLocalStorage();
   const navigate = useNavigate();
 
   const [name, setName] = useState(user.name);
-  const [imgUrl, setImgUrl] = useState(user.imgUrl ?? '');
+  const [image, setImgUrl] = useState(user.image ?? '');
 
   const schema = Joi.object({
     name: Joi.string()
@@ -40,8 +40,8 @@ const EditProfile: React.FC = () => {
   };
 
   const updateMutation = useMutation(
-    ({ name, imgUrl }: { name: string; imgUrl: string }) =>
-      updateUser(user._id, name, imgUrl)
+    ({ name, image }: { name: string; image: string }) =>
+      updateUser({ _id: user._id, name, image })
   );
 
   const update = async () => {
@@ -52,7 +52,7 @@ const EditProfile: React.FC = () => {
 
     try {
       await updateMutation.mutateAsync(
-        { name, imgUrl },
+        { name, image },
         {
           onSuccess: (updateRes) => {
             localStorage.setItem(
@@ -60,17 +60,17 @@ const EditProfile: React.FC = () => {
               JSON.stringify(updateRes)
             );
 
-            toast.success('updateed successfully.');
+            toast.success('updated successfully.');
 
             navigate(Routes.PROFILE);
           },
           onError: () => {
-            toast.error('Update failed');
+            toast.error('Edit profile failed, please try again.');
           },
         }
       );
     } catch {
-      toast.error('Update failed');
+      toast.error('Edit profile failed, please try again.');
     }
   };
 

@@ -44,14 +44,14 @@
 }
 
 .form-input {
-  width: 100%; /* Ensure input fields fit properly */
-  max-width: 400px; /* Restrict max width */
+  width: 100%;
+  max-width: 400px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 16px;
   outline: none;
-  box-sizing: border-box; /* Prevent width issues */
+  box-sizing: border-box;
 }
 
 .password-container {

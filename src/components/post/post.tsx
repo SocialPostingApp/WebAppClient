@@ -24,7 +24,7 @@ interface IProps {
 
 const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
   const navigate = useNavigate();
-  const { userId } = useAppContext();
+  const { user } = useAppContext();
   const postId = post._id;
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,13 +41,13 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
 
   const didUserLikePost = useMemo(() => {
     const likedUserIdsSet = new Set(likedUserIds);
-    return likedUserIdsSet.has(userId);
+    return likedUserIdsSet.has(user._id);
   }, [likedUserIds]);
 
   const addLikeMutation = useMutation(
     async () => {
       if (!postId) throw new Error('Post ID not found');
-      return addLike(postId, userId);
+      return addLike(postId, user._id);
     },
     {
       onSuccess: () => {
@@ -62,7 +62,7 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
   const removeLikeMutation = useMutation(
     async () => {
       if (!postId) throw new Error('Post ID not found');
-      return removeLike(postId, userId);
+      return removeLike(postId, user._id);
     },
     {
       onSuccess: () => {

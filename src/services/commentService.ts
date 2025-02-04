@@ -1,17 +1,13 @@
-import { LocalStorageKeys } from '../models/enums/localStorageKeys';
 import { IComment } from '../models/index';
 import { User } from '../models/types/User';
+import { headers } from './authService';
 import apiClient from './httpCommon';
 
 export const getCommentsByPost = async (
   postId: string
 ): Promise<IComment[]> => {
   const response = await apiClient.get(`/comment?post=${postId}`, {
-    headers: {
-      Authorization: `JWT ${localStorage.getItem(
-        LocalStorageKeys.ACCESS_TOKEN_KEY
-      )}`,
-    },
+    headers: headers(),
   });
 
   return response.data;
@@ -21,11 +17,7 @@ export const getCommentsCountByPost = async (
   postId: string
 ): Promise<number> => {
   const response = await apiClient.get(`/comment/post/${postId}`, {
-    headers: {
-      Authorization: `JWT ${localStorage.getItem(
-        LocalStorageKeys.ACCESS_TOKEN_KEY
-      )}`,
-    },
+    headers: headers(),
   });
 
   return response.data?.amount ?? 0;
@@ -40,11 +32,7 @@ export const addComment = async (
     '/comment',
     { postId, message, userId },
     {
-      headers: {
-        Authorization: `JWT ${localStorage.getItem(
-          LocalStorageKeys.ACCESS_TOKEN_KEY
-        )}`,
-      },
+      headers: headers(),
     }
   );
 

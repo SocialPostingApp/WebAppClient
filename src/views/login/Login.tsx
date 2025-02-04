@@ -18,7 +18,7 @@ import { Routes } from '../../models/enums/routes';
 
 function Login() {
   const navigate = useNavigate();
-  const { setUserId } = useAppContext();
+  const { setUser } = useAppContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -43,7 +43,7 @@ function Login() {
         LocalStorageKeys.USER,
         JSON.stringify(loginRes.user)
       );
-      setUserId(loginRes.user._id);
+      setUser(loginRes.user);
 
       toast.success('Logged in successfully');
 
@@ -69,7 +69,7 @@ function Login() {
         LocalStorageKeys.USER,
         JSON.stringify(loginGoogleRes.user)
       );
-      setUserId(loginGoogleRes.user._id);
+      setUser(loginGoogleRes.user);
 
       navigate(Routes.HOME, { replace: true });
     } catch (err) {
