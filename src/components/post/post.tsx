@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { IPost, IUser } from '../../models/index';
 import { CiStar, CiHeart } from 'react-icons/ci';
 import { FaRegComment, FaHeart, FaTrashAlt, FaEdit } from 'react-icons/fa';
@@ -15,6 +15,7 @@ import {
 } from '../../services/likeService';
 import toast from 'react-hot-toast';
 import { deletePost } from '../../services/postService';
+import GeminiReccomendation from '../geminiReccomendation/geminiReccomendation';
 
 interface IProps {
   post: IPost;
@@ -26,6 +27,7 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
   const { userId } = useAppContext();
   const postId = post._id;
   const queryClient = useQueryClient();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { data: commentsCount } = useQuery<number>(
     ['commentCount', postId],
@@ -96,6 +98,7 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
       removeLikeMutation.mutate();
     } else {
       addLikeMutation.mutate();
+      openModal();
     }
   };
 
@@ -111,8 +114,21 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
     }
   };
 
+  const closeModal = (): void => {
+    setIsModalOpen(false);
+  };
+
+  const openModal = (): void => {
+    setIsModalOpen(true);
+  };
+
   return (
     <div className="post-container">
+      <GeminiReccomendation
+        isModalOpen={isModalOpen}
+        onClose={closeModal}
+        bookName={post.title}
+      />
       <div className="header">
         <div className="post-title">
           {post.title} - {post.owner.name}'s review
