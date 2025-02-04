@@ -11,10 +11,10 @@
   padding: 20px;
 }
 
-.bottom-modal {
+.gemini-bottom-modal {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 .post-form > div:not(:last-child) {
