@@ -114,7 +114,7 @@ export const updateUser = async (user: UpdateUserInput): Promise<IUser> => {
     `/auth/${user._id}`,
     {
       name: user.name,
-      imgUrl: user.imgUrl,
+      img: user.img,
     },
     {
       headers: headers(),
