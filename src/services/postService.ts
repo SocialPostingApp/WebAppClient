@@ -1,5 +1,6 @@
 import { LocalStorageKeys } from '../models/enums/localStorageKeys';
 import { IPost, IUser } from '../models/index';
+import { headers } from './authService';
 import apiClient from './httpCommon';
 
 export interface IPostResponse {
@@ -52,6 +53,22 @@ export const addPost = async (
           LocalStorageKeys.ACCESS_TOKEN_KEY
         )}`,
       },
+    }
+  );
+
+  return response.data;
+};
+
+export const editPost = async (
+  postId: string,
+  post: Omit<IPost, 'owner' | '_id'>,
+  userId: IUser['_id']
+): Promise<IPost> => {
+  const response = await apiClient.put(
+    `/post/${postId}`,
+    { ...post, owner: userId },
+    {
+      headers: headers(),
     }
   );
 
