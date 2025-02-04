@@ -41,7 +41,7 @@ const EditProfile: React.FC = () => {
 
   const updateMutation = useMutation(
     ({ name, imgUrl }: { name: string; imgUrl: string }) =>
-      updateUser(user._id, name, imgUrl)
+      updateUser({ _id: user._id, name, imgUrl })
   );
 
   const update = async () => {

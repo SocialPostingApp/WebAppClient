@@ -3,6 +3,7 @@ import { IUser } from '../models/index';
 import apiClient from './httpCommon';
 import { CredentialResponse } from '@react-oauth/google';
 import { LocalStorageKeys } from '../models/enums/localStorageKeys';
+import { UpdateUserInput } from '../models/interfaces/userInputs';
 
 export const headers = () => {
   const tokens = getTokens();
@@ -108,16 +109,12 @@ export const logout = async () => {
   );
 };
 
-export const updateUser = async (
-  userId: IUser['_id'],
-  name: string,
-  imgUrl: string
-): Promise<IUser> => {
+export const updateUser = async (user: UpdateUserInput): Promise<IUser> => {
   const res = await apiClient.put(
-    `/auth/${userId}`,
+    `/auth/${user._id}`,
     {
-      name,
-      imgUrl,
+      name: user.name,
+      imgUrl: user.imgUrl,
     },
     {
       headers: headers(),

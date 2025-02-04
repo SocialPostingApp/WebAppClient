@@ -1,4 +1,5 @@
 import { LocalStorageKeys } from '../models/enums/localStorageKeys';
+import { headers } from './authService';
 import apiClient from './httpCommon';
 
 export const addLike = async (postId: string, userId: string) => {
@@ -6,32 +7,20 @@ export const addLike = async (postId: string, userId: string) => {
     `/like`,
     { userId, postId },
     {
-      headers: {
-        Authorization: `JWT ${localStorage.getItem(
-          LocalStorageKeys.ACCESS_TOKEN_KEY
-        )}`,
-      },
+      headers: headers(),
     }
   );
 };
 
 export const removeLike = async (postId: string, userId: string) => {
   return await apiClient.delete(`/like/${postId}/${userId}`, {
-    headers: {
-      Authorization: `JWT ${localStorage.getItem(
-        LocalStorageKeys.ACCESS_TOKEN_KEY
-      )}`,
-    },
+    headers: headers(),
   });
 };
 
 export const getLikedUserIds = async (postId: string) => {
   const response = await apiClient.get(`/like/${postId}`, {
-    headers: {
-      Authorization: `JWT ${localStorage.getItem(
-        LocalStorageKeys.ACCESS_TOKEN_KEY
-      )}`,
-    },
+    headers: headers(),
   });
 
   return response.data;
