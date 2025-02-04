@@ -14,7 +14,7 @@
   border: 1px solid var(--color-primary);
 }
 
-.edit-user-container {
+.right-side-container {
   display: flex;
   flex: 1;
 }

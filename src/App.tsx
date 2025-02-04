@@ -3,8 +3,7 @@ import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/router';
 import { useAppContext } from './context/appContext';
-import { LocalStorageKeys } from './models/enums/localStorageKeys';
-import { getUserIdFromLocalStorage } from './utils/getUserId';
+import { getUserIdFromLocalStorage } from './utils/storageUtils';
 
 const TOAST_LIMIT = 1;
 

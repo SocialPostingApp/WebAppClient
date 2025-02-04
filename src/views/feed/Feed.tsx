@@ -33,7 +33,7 @@ const Feed: React.FC<IProps> = ({ isProfile = false, getPosts, children }) => {
   const posts: IPost[] = data?.pages.flatMap((page) => page.posts) || [];
   return (
     <div className="feed-page">
-      {children ? children : <></>}
+      {children ?? <></>}
       <div id="scrollableFeed" className="feed-container">
         <div className="infinite-scroll-container">
           <InfiniteScroll

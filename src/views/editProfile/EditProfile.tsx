@@ -4,12 +4,12 @@ import { useMutation } from 'react-query';
 import Joi from 'joi';
 import './editProfile.css';
 import { IUser } from '../../models';
-import { getUserFromLocalStorage } from '../../utils/getUserName';
 import { updateUser } from '../../services/authService';
 import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
 import FileUpload from '../../components/fileUpload/FileUpload';
 import { Routes } from '../../models/enums/routes';
 import { useNavigate } from 'react-router-dom';
+import { getUserFromLocalStorage } from '../../utils/storageUtils';
 
 const EditProfile: React.FC = () => {
   const user: IUser = getUserFromLocalStorage();
@@ -60,17 +60,17 @@ const EditProfile: React.FC = () => {
               JSON.stringify(updateRes)
             );
 
-            toast.success('updateed successfully.');
+            toast.success('updated successfully.');
 
             navigate(Routes.PROFILE);
           },
           onError: () => {
-            toast.error('Update failed');
+            toast.error('Edit profile failed, please try again.');
           },
         }
       );
     } catch {
-      toast.error('Update failed');
+      toast.error('Edit profile failed, please try again.');
     }
   };
 

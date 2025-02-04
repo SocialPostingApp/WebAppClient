@@ -30,9 +30,7 @@ const BottomNavbar: React.FC = () => {
 
   return (
     <div className="bottom-navbar-container">
-      <div className="edit-user-container">
-        <div className="border-button">{/* Edit Profile */}</div>
-      </div>
+      <div className="right-side-container"></div>
       <div className="user-actions">
         <CreatePost isModalOpen={isModalOpen} onClose={closeModal} />
         <CiUser

@@ -1,10 +1,10 @@
-import { getUserFromLocalStorage } from '../../utils/getUserName';
 import './userDetails.css';
 import DefaultProfilePic from './Default_pfp.jpg';
 import { LiaEdit } from 'react-icons/lia';
 import { useNavigate } from 'react-router-dom';
 import { Routes } from '../../models/enums/routes';
 import { IUser } from '../../models';
+import { getUserFromLocalStorage } from '../../utils/storageUtils';
 
 const UserDetails: React.FC = () => {
   const user: IUser = getUserFromLocalStorage();

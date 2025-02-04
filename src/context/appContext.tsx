@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { LocalStorageKeys } from '../models/enums/localStorageKeys';
-import { getUserIdFromLocalStorage } from '../utils/getUserId';
+import { getUserIdFromLocalStorage } from '../utils/storageUtils';
 
 // Define the shape of the context
 interface AppContextType {
