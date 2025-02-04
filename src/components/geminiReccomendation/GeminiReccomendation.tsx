@@ -62,10 +62,9 @@ const GeminiReccomendation: React.FC<IProps> = ({
             <div className="description">{data?.description}</div>
           </div>
 
-          {/* <div>{data?.description}</div> */}
           <div className="bottom-modal">
             <button className="clickable" onClick={onClose}>
-              close
+              Got It!
             </button>
           </div>
         </div>
