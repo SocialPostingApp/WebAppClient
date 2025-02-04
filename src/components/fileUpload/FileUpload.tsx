@@ -37,6 +37,7 @@ const FileUpload: React.FC<IProps> = ({ saveImageName }) => {
       });
 
       saveImageName(response.data.filename);
+      toast.success('uploaded successfully.');
     } catch (error) {
       console.error('Error uploading file:', error);
     }

@@ -14,7 +14,7 @@ import { Routes } from '../../models/enums/routes';
 
 function Register() {
   const navigate = useNavigate();
-  const { setUserId } = useAppContext();
+  const { setUser } = useAppContext();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -78,10 +78,10 @@ function Register() {
         {
           onSuccess: (registerRes) => {
             localStorage.setItem(
-              LocalStorageKeys.USER_ID,
-              registerRes.data._id
+              LocalStorageKeys.USER,
+              JSON.stringify(registerRes.data)
             );
-            setUserId(registerRes.data._id);
+            setUser(registerRes.data);
 
             toast.success('Registered successfully. You can now login.');
             navigate(Routes.LOGIN, { replace: true });

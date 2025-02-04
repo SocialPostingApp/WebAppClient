@@ -1,5 +1,6 @@
 import { LocalStorageKeys } from '../models/enums/localStorageKeys';
 import { IPost, IUser } from '../models/index';
+import { headers } from './authService';
 import apiClient from './httpCommon';
 
 export interface IPostResponse {
@@ -11,11 +12,7 @@ const OFFSET = 2;
 
 export const getAllPosts = async (page: number): Promise<IPostResponse> => {
   const response = await apiClient.get(`/post?page=${page}&limit=${OFFSET}`, {
-    headers: {
-      Authorization: `JWT ${localStorage.getItem(
-        LocalStorageKeys.ACCESS_TOKEN_KEY
-      )}`,
-    },
+    headers: headers(),
   });
 
   return response?.data ?? { posts: [], hasMore: false };
@@ -28,11 +25,7 @@ export const getPostsByUserId = async (
   const response = await apiClient.get(
     `/post?sender=${userId}&page=${page}&limit=${OFFSET}`,
     {
-      headers: {
-        Authorization: `JWT ${localStorage.getItem(
-          LocalStorageKeys.ACCESS_TOKEN_KEY
-        )}`,
-      },
+      headers: headers(),
     }
   );
 
@@ -47,11 +40,7 @@ export const addPost = async (
     '/post',
     { ...post, owner: userId },
     {
-      headers: {
-        Authorization: `JWT ${localStorage.getItem(
-          LocalStorageKeys.ACCESS_TOKEN_KEY
-        )}`,
-      },
+      headers: headers(),
     }
   );
 
@@ -60,11 +49,7 @@ export const addPost = async (
 
 export const deletePost = async (postId: string): Promise<IPost> => {
   const response = await apiClient.delete(`/post/${postId}`, {
-    headers: {
-      Authorization: `JWT ${localStorage.getItem(
-        LocalStorageKeys.ACCESS_TOKEN_KEY
-      )}`,
-    },
+    headers: headers(),
   });
 
   return response.data;

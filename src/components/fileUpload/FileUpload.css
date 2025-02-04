@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.uploader-container .clickable:hover {
+  background-color: var(--color-primary-hover);
+}
+
 #file-input {
   margin-right: 20px;
 }

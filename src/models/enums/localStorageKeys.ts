@@ -1,5 +1,5 @@
 export enum LocalStorageKeys {
-  USER_ID = 'user-id',
+  USER = 'user',
   ACCESS_TOKEN_KEY = 'access-token',
   REFRESH_TOKEN_KEY = 'refresh-token',
 }
