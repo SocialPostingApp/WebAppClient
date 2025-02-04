@@ -16,7 +16,7 @@ const EditProfile: React.FC = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState(user.name);
-  const [img, setImgUrl] = useState(user.img ?? '');
+  const [image, setImgUrl] = useState(user.image ?? '');
 
   const schema = Joi.object({
     name: Joi.string()
@@ -40,8 +40,8 @@ const EditProfile: React.FC = () => {
   };
 
   const updateMutation = useMutation(
-    ({ name, img }: { name: string; img: string }) =>
-      updateUser({ _id: user._id, name, img })
+    ({ name, image }: { name: string; image: string }) =>
+      updateUser({ _id: user._id, name, image })
   );
 
   const update = async () => {
@@ -52,7 +52,7 @@ const EditProfile: React.FC = () => {
 
     try {
       await updateMutation.mutateAsync(
-        { name, img },
+        { name, image },
         {
           onSuccess: (updateRes) => {
             localStorage.setItem(

@@ -20,9 +20,9 @@ const UserDetails: React.FC = () => {
           <img
             className="picture"
             src={
-              user?.img
+              user?.image
                 ? `${import.meta.env.VITE_REACT_APP_API_URL}/uploads/${
-                    user.img
+                    user.image
                   }`
                 : DefaultProfilePic
             }
