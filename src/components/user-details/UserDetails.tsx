@@ -3,11 +3,10 @@ import DefaultProfilePic from './Default_pfp.jpg';
 import { LiaEdit } from 'react-icons/lia';
 import { useNavigate } from 'react-router-dom';
 import { Routes } from '../../models/enums/routes';
-import { IUser } from '../../models';
 import { getUserFromLocalStorage } from '../../utils/storageUtils';
 
 const UserDetails: React.FC = () => {
-  const user: IUser = getUserFromLocalStorage();
+  const user = getUserFromLocalStorage();
   const navigate = useNavigate();
 
   const handleEditProfile = () => {
@@ -21,7 +20,7 @@ const UserDetails: React.FC = () => {
           <img
             className="picture"
             src={
-              user.imgUrl
+              user?.imgUrl
                 ? `${import.meta.env.VITE_REACT_APP_API_URL}/uploads/${
                     user.imgUrl
                   }`
@@ -31,7 +30,7 @@ const UserDetails: React.FC = () => {
           />
         </div>
 
-        <div className="name-container">{user.name}</div>
+        <div className="name-container">{user?.name}</div>
         <div className="edit-container">
           <LiaEdit className="edit-profile-icon" onClick={handleEditProfile} />
         </div>

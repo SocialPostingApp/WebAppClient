@@ -2,17 +2,11 @@ import { useEffect } from 'react';
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes/router';
-import { useAppContext } from './context/appContext';
-import { getUserIdFromLocalStorage } from './utils/storageUtils';
 
 const TOAST_LIMIT = 1;
 
 function App() {
   const { toasts } = useToasterStore();
-  const { setUserId } = useAppContext();
-
-  const userId = getUserIdFromLocalStorage();
-  setUserId(userId ?? '-1');
 
   useEffect(() => {
     toasts
