@@ -123,6 +123,7 @@ textarea {
 .ai-tag {
   display: flex;
   align-items: center;
+  font-size: 12px;
 }
 
 .ai-spark {
