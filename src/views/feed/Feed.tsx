@@ -10,15 +10,16 @@ import './style.css';
 
 interface IProps {
   isProfile?: boolean;
+  children?: React.ReactNode;
   getPosts: (page: number, userId: string) => Promise<IPostResponse>;
 }
 
-const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
-  const { userId } = useAppContext();
+const Feed: React.FC<IProps> = ({ isProfile = false, getPosts, children }) => {
+  const { user } = useAppContext();
 
   const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
-    isProfile ? ['posts', userId] : ['posts'],
-    ({ pageParam = 1 }) => getPosts(pageParam, userId),
+    isProfile ? ['posts', user._id] : ['posts'],
+    ({ pageParam = 1 }) => getPosts(pageParam, user._id),
     {
       getNextPageParam: (lastPage, pages) =>
         lastPage.hasMore ? pages.length + 1 : undefined,
@@ -32,6 +33,7 @@ const Feed: React.FC<IProps> = ({ isProfile = false, getPosts }) => {
   const posts: IPost[] = data?.pages.flatMap((page) => page.posts) || [];
   return (
     <div className="feed-page">
+      {children ?? <></>}
       <div id="scrollableFeed" className="feed-container">
         <div className="infinite-scroll-container">
           <InfiniteScroll

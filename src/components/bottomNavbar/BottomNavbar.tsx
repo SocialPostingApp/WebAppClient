@@ -30,7 +30,7 @@ const BottomNavbar: React.FC = () => {
 
   return (
     <div className="bottom-navbar-container">
-      <div className="edit-user-container"></div>
+      <div className="right-side-container"></div>
       <div className="user-actions">
         <CreatePost isModalOpen={isModalOpen} onClose={closeModal} />
         <CiUser
@@ -46,7 +46,7 @@ const BottomNavbar: React.FC = () => {
         />
       </div>
       <div className="logout-container">
-        <div className="logout-button" onClick={handleLogout}>
+        <div className="border-button" onClick={handleLogout}>
           Logout
         </div>
       </div>

@@ -9,7 +9,7 @@ import Spinner from '../../components/spinner/Spinner';
 
 const Comments: React.FC = () => {
   const { postId } = useParams();
-  const { userId } = useAppContext();
+  const { user } = useAppContext();
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery<IComment[]>(
@@ -22,7 +22,7 @@ const Comments: React.FC = () => {
   const addCommentMutation = useMutation(
     async (newComment: string) => {
       if (!postId) throw new Error('Post ID not found');
-      return addComment(postId, newComment, userId);
+      return addComment(postId, newComment, user._id);
     },
     {
       onSuccess: () => {

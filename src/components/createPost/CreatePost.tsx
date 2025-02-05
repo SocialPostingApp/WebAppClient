@@ -33,12 +33,12 @@ const customStyles = {
 };
 
 const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
-  const { userId } = useAppContext();
+  const { user } = useAppContext();
   const queryClient = useQueryClient();
 
   const addPostMutation = useMutation(
     async (newPost: Omit<IPost, 'owner' | '_id'>) => {
-      return addPost(newPost, userId);
+      return addPost(newPost, user._id);
     },
     {
       onSuccess: () => {
