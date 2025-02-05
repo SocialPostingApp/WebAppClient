@@ -143,7 +143,10 @@ const EditPost: React.FC<IProps> = ({ post, isModalOpen, onClose }) => {
             <label htmlFor="book image" className="custom-label">
               Rate
             </label>
-            <StarRating rate={rate} onRate={(rating) => setRate(rating)} />
+            <StarRating
+              currentRate={rate}
+              onRate={(rating) => setRate(rating)}
+            />
           </div>
         </form>
         <div className="bottom-modal">
