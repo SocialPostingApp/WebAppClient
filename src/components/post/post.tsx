@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { IPost, IUser } from '../../models/index';
 import { CiStar, CiHeart } from 'react-icons/ci';
 import { FaRegComment, FaHeart, FaTrashAlt, FaEdit } from 'react-icons/fa';
@@ -15,6 +15,7 @@ import {
 } from '../../services/likeService';
 import toast from 'react-hot-toast';
 import { deletePost } from '../../services/postService';
+import EditPost from '../editPost/EditPost';
 
 interface IProps {
   post: IPost;
@@ -107,12 +108,23 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
 
   const onEdit = (): void => {
     if (isProfile) {
-      deletePostMutation.mutate(postId);
+      openModal();
     }
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (): void => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = (): void => {
+    setIsModalOpen(false);
   };
 
   return (
     <div className="post-container">
+      <EditPost post={post} isModalOpen={isModalOpen} onClose={closeModal} />
       <div className="header">
         <div className="post-title">
           {post.title} - {post.owner.name}'s review

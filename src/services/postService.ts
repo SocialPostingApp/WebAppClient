@@ -47,6 +47,22 @@ export const addPost = async (
   return response.data;
 };
 
+export const editPost = async (
+  postId: string,
+  post: Omit<IPost, 'owner' | '_id'>,
+  userId: IUser['_id']
+): Promise<IPost> => {
+  const response = await apiClient.put(
+    `/post/${postId}`,
+    { ...post, owner: userId },
+    {
+      headers: headers(),
+    }
+  );
+
+  return response.data;
+};
+
 export const deletePost = async (postId: string): Promise<IPost> => {
   const response = await apiClient.delete(`/post/${postId}`, {
     headers: headers(),
