@@ -27,7 +27,11 @@ const Feed: React.FC<IProps> = ({ isProfile = false, getPosts, children }) => {
   );
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <div className="spinner-container">
+        <Spinner />
+      </div>
+    );
   }
 
   const posts: IPost[] = data?.pages.flatMap((page) => page.posts) || [];

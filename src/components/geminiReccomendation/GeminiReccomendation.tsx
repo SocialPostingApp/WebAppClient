@@ -19,6 +19,9 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
+    minWidth: '500px',
+    minHeight: '200px',
+    backgroundColor: '#d9dad1',
   },
 };
 
