@@ -49,7 +49,7 @@ const EditProfile: React.FC = () => {
   const update = async () => {
     if (validationResult.error) {
       toast.error(
-        `Please review and correct the information in all fields: \n${validationResult.error.message}`
+        `Please correct the information in fields: \n${validationResult.error.message}`
       );
       return;
     }
