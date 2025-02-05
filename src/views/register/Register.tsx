@@ -3,14 +3,12 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useMutation } from 'react-query';
 import { register as registerRequest } from '../../services/authService';
 import { Link, useNavigate } from 'react-router-dom';
-
-import Joi from 'joi';
 import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
-
-import './Register.css';
 import { useAppContext } from '../../context/appContext';
 import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
 import { Routes } from '../../models/enums/routes';
+import { userSchema } from '../../schemaValidations';
+import './Register.css';
 
 function Register() {
   const navigate = useNavigate();
@@ -22,27 +20,7 @@ function Register() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const schema = Joi.object({
-    name: Joi.string()
-      .regex(/^[a-zA-Z\s]+$/)
-      .required()
-      .messages({
-        'string.pattern.base': 'Name can only contain letters and spaces',
-        'any.required': 'Please fill in all fields',
-      }),
-    email: Joi.string()
-      .email({ tlds: { allow: false } })
-      .required()
-      .messages({
-        'string.email': 'Invalid email address.',
-        'any.required': 'Email is required.',
-      }),
-    password: Joi.string().required().messages({
-      'any.required': 'Please fill in all fields',
-    }),
-  });
-
-  const validationResult = schema.validate(
+  const validationResult = userSchema.validate(
     { name, email, password },
     { abortEarly: false }
   );

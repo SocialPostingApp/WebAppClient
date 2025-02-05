@@ -34,12 +34,12 @@ const customStyles = {
 };
 
 const EditPost: React.FC<IProps> = ({ post, isModalOpen, onClose }) => {
-  const { userId } = useAppContext();
+  const { user } = useAppContext();
   const queryClient = useQueryClient();
 
   const editPostMutation = useMutation(
     async (updatedPost: Omit<IPost, 'owner' | '_id'>) => {
-      return editPost(post._id, updatedPost, userId);
+      return editPost(post._id, updatedPost, user._id);
     },
     {
       onSuccess: () => {
