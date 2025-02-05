@@ -48,7 +48,7 @@ const EditPost: React.FC<IProps> = ({ post, isModalOpen, onClose }) => {
         onClose();
       },
       onError: (error) => {
-        console.error('Error adding post:', error);
+        console.error('Error editing post:', error);
       },
     }
   );
