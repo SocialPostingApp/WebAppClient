@@ -46,7 +46,9 @@ const GeminiReccomendation: React.FC<IProps> = ({
       contentLabel="Example Modal"
     >
       {isLoading ? (
-        <Spinner />
+        <div className="gemini-spinner">
+          <Spinner />
+        </div>
       ) : (
         <div className="modal-container">
           <div className="modal-introduction section-wrapper">

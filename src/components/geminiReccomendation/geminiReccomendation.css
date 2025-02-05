@@ -107,3 +107,10 @@ textarea {
   align-items: center;
   justify-content: center;
 }
+
+.gemini-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
