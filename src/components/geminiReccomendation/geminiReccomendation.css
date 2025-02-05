@@ -14,7 +14,8 @@
 .gemini-bottom-modal {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .post-form > div:not(:last-child) {
@@ -113,4 +114,17 @@ textarea {
   justify-content: center;
   align-items: center;
   height: 200px;
+}
+
+.book-details {
+  font-size: 20px;
+}
+
+.ai-tag {
+  display: flex;
+  align-items: center;
+}
+
+.ai-spark {
+  margin-left: 5px;
 }

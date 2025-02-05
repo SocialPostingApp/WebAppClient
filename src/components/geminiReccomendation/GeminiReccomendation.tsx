@@ -1,7 +1,7 @@
 import Modal from 'react-modal';
 import './geminiReccomendation.css';
 import { useQuery } from 'react-query';
-import { GeminiResponse } from '../../models/interfaces/GeminiResponse';
+import { HiOutlineSparkles } from 'react-icons/hi';
 import { getGeminiReccomendation } from '../../services/gemini.service';
 import Spinner from '../spinner/Spinner';
 
@@ -30,7 +30,7 @@ const GeminiReccomendation: React.FC<IProps> = ({
   bookName,
   onClose,
 }) => {
-  const { data, isLoading, error } = useQuery<GeminiResponse>(
+  const { data, isLoading, error } = useQuery<string>(
     ['gemini', bookName],
     () => getGeminiReccomendation(bookName),
     {
@@ -59,15 +59,12 @@ const GeminiReccomendation: React.FC<IProps> = ({
             <div>Therfore we would like to make a reccomendation for you:</div>
           </div>
 
-          <div className="section-wrapper">
-            <div className="row">
-              <div className="rec-book-title book-title">{data?.title}</div> by{' '}
-              {data?.author}
-            </div>
-            <div className="description">{data?.description}</div>
-          </div>
+          <div className="section-wrapper book-details">{data}</div>
 
           <div className="gemini-bottom-modal">
+            <div className="ai-tag">
+              AI Generated <HiOutlineSparkles className="ai-spark" />
+            </div>
             <button className="clickable" onClick={onClose}>
               Got It!
             </button>
