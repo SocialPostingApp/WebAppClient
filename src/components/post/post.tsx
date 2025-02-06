@@ -129,7 +129,7 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
   };
 
   const openGeminiModal = (): void => {
-    setIsEditModalOpen(true);
+    setIsGeminiModalOpen(true);
   };
 
   return (
