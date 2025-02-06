@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { useMutation } from 'react-query';
-import Joi from 'joi';
 import './editProfile.css';
 import { IUser } from '../../models';
 import { updateUser } from '../../services/authService';
