@@ -16,6 +16,7 @@ import {
 import toast from 'react-hot-toast';
 import { deletePost } from '../../services/postService';
 import EditPost from '../editPost/EditPost';
+import GeminiReccomendation from '../geminiReccomendation/GeminiReccomendation';
 
 interface IProps {
   post: IPost;
@@ -27,6 +28,8 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
   const { user } = useAppContext();
   const postId = post._id;
   const queryClient = useQueryClient();
+  const [isGeminiModalOpen, setIsGeminiModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const { data: commentsCount } = useQuery<number>(
     ['commentCount', postId],
@@ -97,6 +100,7 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
       removeLikeMutation.mutate();
     } else {
       addLikeMutation.mutate();
+      openGeminiModal();
     }
   };
 
@@ -108,23 +112,38 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
 
   const onEdit = (): void => {
     if (isProfile) {
-      openModal();
+      openEditModal();
     }
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = (): void => {
-    setIsModalOpen(true);
+  const closeEditModal = (): void => {
+    setIsEditModalOpen(false);
   };
 
-  const closeModal = (): void => {
-    setIsModalOpen(false);
+  const openEditModal = (): void => {
+    setIsEditModalOpen(true);
+  };
+
+  const closeGeminiModal = (): void => {
+    setIsGeminiModalOpen(false);
+  };
+
+  const openGeminiModal = (): void => {
+    setIsEditModalOpen(true);
   };
 
   return (
     <div className="post-container">
-      <EditPost post={post} isModalOpen={isModalOpen} onClose={closeModal} />
+      <GeminiReccomendation
+        isModalOpen={isGeminiModalOpen}
+        onClose={closeGeminiModal}
+        bookName={post.title}
+      />
+      <EditPost
+        post={post}
+        isModalOpen={isEditModalOpen}
+        onClose={closeEditModal}
+      />
       <div className="header">
         <div className="post-title">
           {post.title} - {post.owner.name}'s review

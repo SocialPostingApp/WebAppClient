@@ -1,0 +1,131 @@
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 65vw;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+  padding: 20px;
+}
+
+.gemini-bottom-modal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.post-form > div:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.post-form input,
+textarea {
+  width: 100%;
+  padding: 10px;
+
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+
+  font-size: 16px;
+}
+
+#review {
+  height: 80px;
+}
+
+#review::-webkit-scrollbar {
+  width: 7px;
+  margin: 5px;
+  cursor: default;
+}
+
+#review::-webkit-scrollbar-thumb {
+  background-color: #dadce0;
+  border-radius: 4px;
+}
+
+.modal-container button {
+  width: 80px;
+  padding: 10px;
+
+  background-color: var(--color-primary);
+  color: white;
+
+  text-align: center;
+  font-weight: bold;
+
+  border: none;
+  border-radius: 6px;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.book-title {
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.book-name {
+  margin-left: 10px;
+}
+
+.rec-book-title {
+  margin-right: 10px;
+}
+
+.modal-introduction {
+  font-size: 25px;
+}
+
+.section-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.description {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gemini-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.book-details {
+  font-size: 20px;
+}
+
+.ai-tag {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.ai-spark {
+  margin-left: 5px;
+}
