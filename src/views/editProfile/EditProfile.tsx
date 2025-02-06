@@ -10,6 +10,7 @@ import FileUpload from '../../components/fileUpload/FileUpload';
 import { Routes } from '../../models/enums/routes';
 import { useNavigate } from 'react-router-dom';
 import { getUserFromLocalStorage } from '../../utils/storageUtils';
+import { profileSchema } from '../../schemaValidations';
 
 const EditProfile: React.FC = () => {
   const user: IUser = getUserFromLocalStorage();
@@ -18,19 +19,10 @@ const EditProfile: React.FC = () => {
   const [name, setName] = useState(user.name);
   const [image, setImgUrl] = useState(user.image ?? '');
 
-  const schema = Joi.object({
-    name: Joi.string()
-      .regex(/^[a-zA-Z0-9]+$/)
-      .max(20)
-      .required()
-      .messages({
-        'string.pattern.base': 'Name can only contain letters and numbers',
-        'string.max': 'Name cannot be longer than 20 characters',
-        'any.required': 'Please fill in all fields',
-      }),
-  });
-
-  const validationResult = schema.validate({ name }, { abortEarly: false });
+  const validationResult = profileSchema.validate(
+    { name },
+    { abortEarly: false }
+  );
 
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement>,
