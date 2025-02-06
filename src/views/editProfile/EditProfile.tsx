@@ -20,10 +20,12 @@ const EditProfile: React.FC = () => {
 
   const schema = Joi.object({
     name: Joi.string()
-      .regex(/^[a-zA-Z\s]+$/)
+      .regex(/^[a-zA-Z0-9]+$/)
+      .max(20)
       .required()
       .messages({
-        'string.pattern.base': 'Name can only contain letters and spaces',
+        'string.pattern.base': 'Name can only contain letters and numbers',
+        'string.max': 'Name cannot be longer than 20 characters',
         'any.required': 'Please fill in all fields',
       }),
   });
@@ -47,7 +49,7 @@ const EditProfile: React.FC = () => {
   const update = async () => {
     if (validationResult.error) {
       toast.error(
-        `Please review and correct the information in all fields. ${validationResult.error.message}`
+        `Please correct the information in fields: \n${validationResult.error.message}`
       );
       return;
     }

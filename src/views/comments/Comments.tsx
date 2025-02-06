@@ -47,7 +47,12 @@ const Comments: React.FC = () => {
     }
   };
 
-  if (isLoading) return <Spinner />;
+  if (isLoading)
+    return (
+      <div className="spinner-container">
+        <Spinner />
+      </div>
+    );
   if (error instanceof Error) return <p>Error: {error.message}</p>;
 
   return (
