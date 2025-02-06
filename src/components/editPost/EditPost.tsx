@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import FileUpload from '../fileUpload/FileUpload';
-import './CreatePost.css';
+import './EditPost.css';
 import { useMutation, useQueryClient } from 'react-query';
-import { addPost } from '../../services/postService';
+import { editPost } from '../../services/postService';
 import { IPost } from '../../models';
 import { useAppContext } from '../../context/appContext';
 import toast from 'react-hot-toast';
@@ -11,6 +11,7 @@ import StarRating from '../starRating/starRating';
 import { postSchema } from '../../schemaValidations';
 
 interface IProps {
+  post: IPost;
   isModalOpen: boolean;
   onClose: () => void;
 }
@@ -32,31 +33,30 @@ const customStyles = {
   },
 };
 
-const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
-  const { user } = useAppContext();
+const EditPost: React.FC<IProps> = ({ post, isModalOpen, onClose }) => {
+  const { userId } = useAppContext();
   const queryClient = useQueryClient();
 
-  const addPostMutation = useMutation(
-    async (newPost: Omit<IPost, 'owner' | '_id'>) => {
-      return addPost(newPost, user._id);
+  const editPostMutation = useMutation(
+    async (updatedPost: Omit<IPost, 'owner' | '_id'>) => {
+      return editPost(post._id, updatedPost, userId);
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['posts']);
-        toast.success('Your Reccomendation is published! :)');
-        clearInputs();
+        toast.success('Your changes were saved! :)');
         onClose();
       },
       onError: (error) => {
-        console.error('Error adding post:', error);
+        console.error('Error editing post:', error);
       },
     }
   );
 
-  const [inputName, setInputName] = useState<string>('');
-  const [inputReview, setInputReview] = useState<string>('');
-  const [rate, setRate] = useState<number>(5);
-  const [image, setImage] = useState<string>('');
+  const [inputName, setInputName] = useState<string>(post.title);
+  const [inputReview, setInputReview] = useState<string>(post.review);
+  const [rate, setRate] = useState<number>(post.rate);
+  const [image, setImage] = useState<string>(post.image || '');
 
   const validationResult = postSchema.validate(
     { title: inputName, review: inputReview, rate },
@@ -64,9 +64,11 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
   );
 
   const isSaveAllowed: boolean =
-    Boolean(inputName.trim()) &&
-    Boolean(inputReview.trim()) &&
-    Boolean(image.trim());
+    (Boolean(inputName.trim()) && inputName.trim() !== post.title.trim()) ||
+    (Boolean(inputReview.trim()) &&
+      inputReview.trim() !== post.review.trim()) ||
+    (Boolean(image.trim()) && image.trim() !== post.image?.trim()) ||
+    rate !== post.rate;
 
   useEffect(() => {
     if (isModalOpen) {
@@ -75,10 +77,10 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
   }, [isModalOpen]);
 
   const clearInputs = (): void => {
-    setInputName('');
-    setInputReview('');
-    setRate(0);
-    setImage('');
+    setInputName(post.title);
+    setInputReview(post.review);
+    setRate(post.rate);
+    setImage(post.image || '');
   };
 
   const saveImage = (image: string) => {
@@ -88,17 +90,17 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
   const saveModal = (): void => {
     if (validationResult.error) {
       toast.error(
-        `You have unfilled or wrong details, please fix them :) \n${validationResult.error.message}`
+        `Please correct the information in all fields :) ${validationResult.error.message}`
       );
     } else {
-      const newPost: Omit<IPost, 'owner' | '_id'> = {
+      const updatedPost: Omit<IPost, 'owner' | '_id'> = {
         title: inputName,
         review: inputReview,
         image: image,
         rate: rate,
       };
 
-      addPostMutation.mutate(newPost);
+      editPostMutation.mutate(updatedPost);
       onClose();
     }
   };
@@ -123,7 +125,7 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
           </div>
           <div>
             <label htmlFor="book review" className="custom-label">
-              Tell us about the book
+              Review
             </label>
             <textarea
               id="review"
@@ -133,26 +135,29 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
           </div>
           <div>
             <label htmlFor="book image" className="custom-label">
-              Show us the book!
+              New book pic
             </label>
             <FileUpload saveImageName={saveImage} />
           </div>
           <div>
             <label htmlFor="book image" className="custom-label">
-              What would you rate it?
+              Rate
             </label>
-            <StarRating onRate={(rating) => setRate(rating)} />
+            <StarRating
+              currentRate={rate}
+              onRate={(rating) => setRate(rating)}
+            />
           </div>
         </form>
         <div className="bottom-modal">
           <button className="clickable" onClick={onClose}>
-            close
+            cancel
           </button>
           <button
             className={!isSaveAllowed ? 'disabled' : 'clickable'}
             onClick={saveModal}
           >
-            publish
+            save changes
           </button>
         </div>
       </div>
@@ -160,4 +165,4 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
   );
 };
 
-export default CreatePost;
+export default EditPost;

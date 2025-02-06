@@ -15,7 +15,8 @@ import {
 } from '../../services/likeService';
 import toast from 'react-hot-toast';
 import { deletePost } from '../../services/postService';
-import GeminiReccomendation from '../geminiReccomendation/geminiReccomendation';
+import EditPost from '../editPost/EditPost';
+import GeminiReccomendation from '../geminiReccomendation/GeminiReccomendation';
 
 interface IProps {
   post: IPost;
@@ -27,7 +28,8 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
   const { user } = useAppContext();
   const postId = post._id;
   const queryClient = useQueryClient();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGeminiModalOpen, setIsGeminiModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const { data: commentsCount } = useQuery<number>(
     ['commentCount', postId],
@@ -98,7 +100,7 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
       removeLikeMutation.mutate();
     } else {
       addLikeMutation.mutate();
-      openModal();
+      openGeminiModal();
     }
   };
 
@@ -110,24 +112,37 @@ const Post: React.FC<IProps> = ({ post, isProfile = false }) => {
 
   const onEdit = (): void => {
     if (isProfile) {
-      deletePostMutation.mutate(postId);
+      openEditModal();
     }
   };
 
-  const closeModal = (): void => {
-    setIsModalOpen(false);
+  const closeEditModal = (): void => {
+    setIsEditModalOpen(false);
   };
 
-  const openModal = (): void => {
-    setIsModalOpen(true);
+  const openEditModal = (): void => {
+    setIsEditModalOpen(true);
+  };
+
+  const closeGeminiModal = (): void => {
+    setIsGeminiModalOpen(false);
+  };
+
+  const openGeminiModal = (): void => {
+    setIsEditModalOpen(true);
   };
 
   return (
     <div className="post-container">
       <GeminiReccomendation
-        isModalOpen={isModalOpen}
-        onClose={closeModal}
+        isModalOpen={isGeminiModalOpen}
+        onClose={closeGeminiModal}
         bookName={post.title}
+      />
+      <EditPost
+        post={post}
+        isModalOpen={isEditModalOpen}
+        onClose={closeEditModal}
       />
       <div className="header">
         <div className="post-title">
