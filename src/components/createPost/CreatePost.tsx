@@ -110,7 +110,7 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <div className="modal-container">
+      <div className="create-post-modal-container">
         <form className="post-form">
           <div>
             <label htmlFor="book name" className="custom-label">

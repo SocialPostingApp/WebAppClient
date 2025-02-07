@@ -50,7 +50,7 @@ const GeminiReccomendation: React.FC<IProps> = ({
           <Spinner />
         </div>
       ) : (
-        <div className="modal-container">
+        <div className="gemini-modal-container">
           <div className="modal-introduction section-wrapper">
             <div className="row">
               Hey! We saw you liked
