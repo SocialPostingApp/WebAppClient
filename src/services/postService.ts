@@ -1,4 +1,3 @@
-import { LocalStorageKeys } from '../models/enums/localStorageKeys';
 import { IPost, IUser } from '../models/index';
 import { headers } from './authService';
 import apiClient from './httpCommon';

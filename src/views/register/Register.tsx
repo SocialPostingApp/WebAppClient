@@ -17,7 +17,6 @@ function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const validationResult = userSchema.validate(
@@ -43,8 +42,6 @@ function Register() {
   );
 
   const register = async () => {
-    setFormSubmitted(true);
-
     if (validationResult.error) {
       toast.error(
         `Please review and correct the information in all fields. ${validationResult.error.message}`

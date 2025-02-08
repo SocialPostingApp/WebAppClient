@@ -30,7 +30,7 @@ const GeminiReccomendation: React.FC<IProps> = ({
   bookName,
   onClose,
 }) => {
-  const { data, isLoading, error } = useQuery<string>(
+  const { data, isLoading } = useQuery<string>(
     ['gemini', bookName],
     () => getGeminiReccomendation(bookName),
     {

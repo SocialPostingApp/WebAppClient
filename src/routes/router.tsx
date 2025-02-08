@@ -6,7 +6,7 @@ import Comments from '../views/comments/Comments';
 import { getTokens } from '../services/authService';
 import { getAllPosts, getPostsByUserId } from '../services/postService';
 import { Routes } from '../models/enums/routes';
-import EditProfile from '../views/editProfile/editProfile';
+import EditProfile from '../views/editProfile/EditProfile';
 import UserDetails from '../components/user-details/UserDetails';
 
 const authLoader = async () => {

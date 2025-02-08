@@ -1,8 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import {
-  getUserFromLocalStorage,
-  getUserIdFromLocalStorage,
-} from '../utils/storageUtils';
+import { getUserFromLocalStorage } from '../utils/storageUtils';
 import { IUser } from '../models';
 
 // Define the shape of the context
