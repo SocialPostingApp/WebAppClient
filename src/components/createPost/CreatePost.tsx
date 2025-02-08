@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Modal from 'react-modal';
-import FileUpload from '../fileUpload/FileUpload';
 import './CreatePost.css';
 import { useMutation, useQueryClient } from 'react-query';
 import { addPost } from '../../services/postService';
@@ -9,6 +8,8 @@ import { useAppContext } from '../../context/appContext';
 import toast from 'react-hot-toast';
 import StarRating from '../starRating/starRating';
 import { postSchema } from '../../schemaValidations';
+import { useForm } from 'react-hook-form';
+import { handleFileChange } from '../../utils/handleFileChange';
 
 interface IProps {
   isModalOpen: boolean;
@@ -23,6 +24,7 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     padding: '15px',
+    width: '50vw',
     transform: 'translate(-50%, -50%)',
     background: '#f2f2f2',
     boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
@@ -35,6 +37,23 @@ const customStyles = {
 const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
   const { user } = useAppContext();
   const queryClient = useQueryClient();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: '',
+      review: '',
+      rate: 0,
+      image: '',
+      file: null as File | null,
+    },
+  });
 
   const addPostMutation = useMutation(
     async (newPost: Omit<IPost, 'owner' | '_id'>) => {
@@ -44,7 +63,7 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
       onSuccess: () => {
         queryClient.invalidateQueries(['posts']);
         toast.success('Your Reccomendation is published! :)');
-        clearInputs();
+        resetForm();
         onClose();
       },
       onError: (error) => {
@@ -53,54 +72,56 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
     }
   );
 
-  const [inputName, setInputName] = useState<string>('');
-  const [inputReview, setInputReview] = useState<string>('');
-  const [rate, setRate] = useState<number>(5);
-  const [image, setImage] = useState<string>('');
-
-  const validationResult = postSchema.validate(
-    { title: inputName, review: inputReview, rate },
-    { abortEarly: false }
-  );
+  const watchFile = watch('file');
+  const watchTitle = watch('title');
+  const watchReview = watch('review');
+  const watchRate = watch('rate');
 
   const isSaveAllowed: boolean =
-    Boolean(inputName.trim()) &&
-    Boolean(inputReview.trim()) &&
-    Boolean(image.trim());
+    !!watchTitle.trim() && !!watchReview.trim() && watchFile !== null;
 
   useEffect(() => {
     if (isModalOpen) {
-      clearInputs();
+      resetForm();
     }
   }, [isModalOpen]);
 
-  const clearInputs = (): void => {
-    setInputName('');
-    setInputReview('');
-    setRate(0);
-    setImage('');
+  const resetForm = () => {
+    setValue('title', '');
+    setValue('review', '');
+    setValue('rate', 0);
+    setValue('image', '');
+    setValue('file', null as File | null);
   };
 
-  const saveImage = (image: string) => {
-    setImage(image);
+  const triggerFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
   };
 
-  const saveModal = (): void => {
+  const onSubmit = async (data) => {
+    const validationResult = postSchema.validate(
+      { title: data.title, review: data.review, rate: data.rate },
+      { abortEarly: false }
+    );
+
     if (validationResult.error) {
       toast.error(
-        `You have unfilled or wrong details, please fix them :) \n${validationResult.error.message}`
+        `Please correct the information in all fields :) ${validationResult.error.message}`
       );
-    } else {
-      const newPost: Omit<IPost, 'owner' | '_id'> = {
-        title: inputName,
-        review: inputReview,
-        image: image,
-        rate: rate,
-      };
-
-      addPostMutation.mutate(newPost);
-      onClose();
+      return;
     }
+
+    const newPost: Omit<IPost, 'owner' | '_id'> = {
+      title: data.title,
+      review: data.review,
+      image: data.image,
+      rate: data.rate,
+    };
+
+    addPostMutation.mutate(newPost);
+    onClose();
   };
 
   return (
@@ -108,53 +129,72 @@ const CreatePost: React.FC<IProps> = ({ isModalOpen, onClose }) => {
       isOpen={isModalOpen}
       onRequestClose={onClose}
       style={customStyles}
-      contentLabel="Example Modal"
+      contentLabel="Add post"
     >
       <div className="create-post-modal-container">
-        <form className="post-form">
+        <form className="post-form" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label htmlFor="book name" className="custom-label">
               Book name
             </label>
-            <input
-              value={inputName}
-              onChange={(e) => setInputName(e.target.value)}
-            />
+            <input {...register('title')} />
+            {errors.title && (
+              <p className="error-text">{errors.title.message}</p>
+            )}
           </div>
           <div>
             <label htmlFor="book review" className="custom-label">
               Tell us about the book
             </label>
-            <textarea
-              id="review"
-              value={inputReview}
-              onChange={(e) => setInputReview(e.target.value)}
-            />
+            <textarea id="review" {...register('review')} />
+            {errors.review && (
+              <p className="error-text">{errors.review.message}</p>
+            )}
           </div>
           <div>
-            <label htmlFor="book image" className="custom-label">
-              Show us the book!
-            </label>
-            <FileUpload saveImageName={saveImage} />
+            <button
+              type="button"
+              className="clickable upload-image-button"
+              onClick={triggerFileInput}
+            >
+              Upload Image
+            </button>
+            <input
+              type="file"
+              id="file-upload"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={(event) => handleFileChange(event, setValue)}
+            />
+            {watchFile && <p>Selected: {watchFile.name}</p>}
           </div>
           <div>
             <label htmlFor="book image" className="custom-label">
               What would you rate it?
             </label>
-            <StarRating onRate={(rating) => setRate(rating)} />
+
+            <div>
+              <label htmlFor="rate" className="custom-label">
+                Rate
+              </label>
+              <StarRating
+                currentRate={watchRate}
+                onRate={(rating) => setValue('rate', rating)}
+              />
+            </div>
+          </div>
+          <div className="bottom-modal">
+            <button className="clickable" onClick={onClose}>
+              close
+            </button>
+            <button
+              type="submit"
+              className={!isSaveAllowed ? 'disabled' : 'clickable'}
+            >
+              publish
+            </button>
           </div>
         </form>
-        <div className="bottom-modal">
-          <button className="clickable" onClick={onClose}>
-            close
-          </button>
-          <button
-            className={!isSaveAllowed ? 'disabled' : 'clickable'}
-            onClick={saveModal}
-          >
-            publish
-          </button>
-        </div>
       </div>
     </Modal>
   );

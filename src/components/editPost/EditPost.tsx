@@ -8,9 +8,6 @@ import { IPost } from '../../models';
 import { useAppContext } from '../../context/appContext';
 import StarRating from '../starRating/starRating';
 import { postSchema } from '../../schemaValidations';
-import apiClient from '../../services/httpCommon';
-import { LocalStorageKeys } from '../../models/enums/localStorageKeys';
-import { Routes } from '../../models/enums/routes';
 import './EditPost.css';
 import { handleFileChange } from '../../utils/handleFileChange';
 
