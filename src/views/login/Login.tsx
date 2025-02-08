@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
-import './Login.css';
+import './login.css';
 import { EyeSlashIcon, EyeIcon } from '@heroicons/react/24/solid';
 import Lottie from 'react-lottie';
 import BooksAnimation from './books-animation.json';
