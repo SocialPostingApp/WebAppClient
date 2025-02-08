@@ -1,4 +1,4 @@
-.modal-container {
+.create-post-modal-container {
   display: flex;
   flex-direction: column;
 }
@@ -6,7 +6,7 @@
 .post-form {
   display: flex;
   flex-direction: column;
-  margin-bottom: 50px;
+  margin-bottom: 0;
   padding: 20px;
 }
 
@@ -47,9 +47,8 @@ textarea {
   border-radius: 4px;
 }
 
-.modal-container button {
-  width: 80px;
-  padding: 10px;
+.create-post-modal-container button {
+  padding: 15px;
 
   background-color: var(--color-primary);
   color: white;

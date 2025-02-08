@@ -109,7 +109,6 @@
 }
 
 button {
-  width: 80px;
   padding: 10px;
 
   background-color: var(--color-primary);
