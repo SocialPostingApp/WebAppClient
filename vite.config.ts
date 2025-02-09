@@ -6,7 +6,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     ...(process.env.VITE_ENV !== 'dev' && {
-      base: 'https://10.10.246.125:80/dist/src/front',
+      base: 'https://node125.cs.colman.ac.il/dist/src/front',
     }),
     plugins: [react()],
     define: {
