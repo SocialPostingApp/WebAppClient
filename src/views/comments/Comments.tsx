@@ -57,7 +57,7 @@ const Comments: React.FC = () => {
 
   return (
     <div className="all-comments-container">
-      <div className="comments-title">תגובות על הספר</div>
+      <div className="comments-title">Book Review Comments</div>
       <div className="custom-box">
         <div className="comments-container">
           {data?.map((comment: IComment, index: number) => (

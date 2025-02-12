@@ -90,7 +90,7 @@ const EditProfile: React.FC = () => {
         <form className="form-group" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label htmlFor="title" className="custom-label">
-              Book name
+              User name
             </label>
             <input {...register('name')} />
             {errors.name && <p className="error-text">{errors.name.message}</p>}

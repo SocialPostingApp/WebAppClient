@@ -80,7 +80,7 @@ function Register() {
 
         <div className="form-group">
           <label htmlFor="name" className="form-label">
-            Name <span className="required">*</span>
+            Username <span className="required">*</span>
           </label>
           <input
             id="name"
