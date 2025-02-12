@@ -91,7 +91,7 @@ function Login() {
             style={{ width: 400, height: 100 }}
           />
           <p className="welcome-text">Welcome to</p>
-          <h1 className="font-bold-4xl">READIT</h1>
+          <h1 className="app-headline">READIT</h1>
         </div>
         <div className="input-group">
           <label htmlFor="email" className="custom-label">
